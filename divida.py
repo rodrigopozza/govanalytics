@@ -293,24 +293,80 @@ with tab_composicao:
 # TAB 4: TABELA
 # ------------------------------------------
 with tab_dados:
-    st.subheader("Visão Tabela — Demonstrativo Completo")
+    st.subheader("Visão Tabela — Demonstrativo Resumido")
     
-    # Formatar valores para exibição bonita na tabela
-    df_display = df_data.copy()
+    # 1. Lista de linhas "filhas" / detalhamentos que devem ser REMOVIDOS da exibição
+    linhas_para_remover = [
+        "Internos",
+        "Externos",
+        "De Tributos",
+        "De Contribuições Previdenciárias",
+        "De Demais Contribuições Sociais",
+        "Do FGTS",
+        "Com Instituição Não Financeira"
+    ]
+    
+    # Filtrar o dataframe para remover as linhas filhas
+    df_filtered = df_data[~df_data["Especificacao"].isin(linhas_para_remover)].copy()
+    
+    # Listas de especificações para aplicar Destaque Visual (Estilização)
+    linhas_destaque_total = [
+        "DÍVIDA CONSOLIDADA – DC (I)",
+        "DEDUÇÕES (II)",
+        "DÍVIDA CONSOLIDADA LÍQUIDA – DCL (III) = (I – II)",
+        "RECEITA CORRENTE LÍQUIDA – RCL (IV)",
+        "RECEITA CORRENTE LÍQUIDA AJUSTADA PARA CÁLCULO DOS LIMITES DE ENDIVIDAMENTO (VI) = (IV - V)"
+    ]
+    
+    linhas_destaque_subtotal = [
+        "Dívida Contratual",
+        "Dívida Mobiliária",
+        "Financiamentos",
+        "Empréstimos",
+        "Parcelamento e Renegociação de dívidas",
+        "Disponibilidade de Caixa",
+        "Demais Haveres Financeiros"
+    ]
+
+    # Formatar os valores para o padrão brasileiro de moeda para exibição
     val_cols = ["Até Exer. Anterior", "1º Quadrimestre", "2º Quadrimestre", "3º Quadrimestre"]
+    df_display = df_filtered.copy()
     
     for col in val_cols:
         df_display[col] = df_display[col].apply(
             lambda x: f"{x:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".") if pd.notna(x) else "-"
         )
+
+    # 2. Função para aplicar os estilos CSS/Pandas Styler na tabela
+    def highlight_rows(row):
+        spec = str(row["Especificacao"]).strip()
         
-    st.dataframe(df_display, use_container_width=True, height=500)
+        # Estilo para os Grandes Totais e Resultados Principais (Fundo destacado e negrito)
+        if spec in linhas_destaque_total:
+            return ['background-color: #1f2937; color: #ffffff; font-weight: bold;'] * len(row)
+            
+        # Estilo para os Subtotais intermediários (Negrito simples)
+        elif spec in linhas_destaque_subtotal or "LIMITE" in spec or "%" in spec:
+            return ['font-weight: bold; background-color: #f3f4f6; color: #111827;'] * len(row)
+            
+        return [''] * len(row)
+
+    # Aplicar a estilização
+    styled_df = df_display.style.apply(highlight_rows, axis=1)
+
+    # Exibir a tabela com o Pandas Styler ativado
+    st.dataframe(
+        styled_df, 
+        use_container_width=True, 
+        height=600,
+        hide_index=True
+    )
     
-    # Botão de download
-    csv_download = df_data.to_csv(index=False).encode('utf-8-sig')
+    # Botão de download dos dados filtrados
+    csv_download = df_filtered.to_csv(index=False).encode('utf-8-sig')
     st.download_button(
-        label="📥 Baixar Dados Tratados (CSV)",
+        label="📥 Baixar Dados Tratados e Resumidos (CSV)",
         data=csv_download,
-        file_name="rgf_divida_consolidada_tratado.csv",
+        file_name="rgf_divida_consolidada_resumido.csv",
         mime="text/csv"
     )
