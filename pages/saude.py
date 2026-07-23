@@ -203,13 +203,13 @@ def carregar_e_tratar_dados(file):
 # -----------------------------------------------------------------------------
 # 2. CARREGAMENTO DO ARQUIVO LOCAL OU VIA UPLOAD
 # -----------------------------------------------------------------------------
-csv_path = r"C:\Users\IPM\Desktop\dashbords\govanalytics\RelatorioRREORecDespAcoesServPublicoSaude_3.csv"
+diretorio_atual = os.path.dirname(__file__)
+csv_path = os.path.join(diretorio_atual, "RelatorioRREORecDespAcoesServPublicoSaude_3.csv")
 
 source = None
 if os.path.exists(csv_path):
     source = csv_path
 else:
-    st.info("Arquivo padrão não localizado no caminho local. Faça o upload do CSV:")
     uploaded_file = st.file_uploader("Selecione o arquivo RREO Anexo 12", type=["csv"])
     if uploaded_file is not None:
         source = uploaded_file

@@ -253,7 +253,8 @@ def carregar_e_tratar_dados_educacao(file):
 # -----------------------------------------------------------------------------
 # 2. CARREGAMENTO DO ARQUIVO
 # -----------------------------------------------------------------------------
-csv_path = r"C:\Users\IPM\Desktop\dashbords\govanalytics\RelatorioRREORecDespMDE_6.csv"
+diretorio_atual = os.path.dirname(__file__)
+csv_path = os.path.join(diretorio_atual, "RelatorioRREORecDespMDE_6.csv")
 
 source = None
 if os.path.exists(csv_path):

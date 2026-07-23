@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -90,11 +91,14 @@ with st.expander("⚙️ **Navegação & Filtros do Relatório**", expanded=True
         periodos = ["Até Exer. Anterior", "1º Quadrimestre", "2º Quadrimestre", "3º Quadrimestre"]
         periodo_sel = st.selectbox("Selecione o Período para Destaque (KPIs):", periodos, index=1)
 
-# Carregamento dos dados
+# Carregamento dos dados (com suporte a caminho relativo para nuvem e local)
 if uploaded_file is not None:
     df_data = load_and_clean_data(uploaded_file)
 else:
-    default_file = r"C:\Users\IPM\Desktop\dashbords\govanalytics\RelatorioRGFDividaConsolidadaLiquida_5.csv"
+    # Caminho relativo seguro baseado na localização deste script
+    diretorio_atual = os.path.dirname(__file__)
+    default_file = os.path.join(diretorio_atual, "RelatorioRGFDividaConsolidadaLiquida_5.csv")
+    
     try:
         df_data = load_and_clean_data(default_file)
     except Exception as e:
