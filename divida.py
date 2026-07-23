@@ -64,33 +64,52 @@ def load_and_clean_data(file_path_or_buffer):
     return df_main
 
 # ==========================================
-# BARRA LATERAL (SIDEBAR)
+# BARRA LATERAL (SIDEBAR) - NAVEGAÇÃO DE PÁGINAS
 # ==========================================
-st.sidebar.image("https://img.icons8.com/color/96/line-chart.png", width=80)
-st.sidebar.title("Navegação & Filtros")
+st.sidebar.image("https://img.icons8.com/color/96/line-chart.png", width=60)
+st.sidebar.title("📌 Menu do Sistema")
 
-uploaded_file = st.sidebar.file_uploader("Carregar outro arquivo CSV", type=["csv"])
+st.sidebar.markdown("""
+**Dashboards Disponíveis:**
+- 📊 **Dívida Consolidada Líquida (Atual)**
+---
+*Adicione novos arquivos `.py` na pasta `pages/` para criar relatórios adicionais no menu automático do Streamlit.*
+""")
 
-if uploaded_file is not None:
-    df_data = load_and_clean_data(uploaded_file)
-else:
-    # Nome padrão do arquivo recebido
-    default_file = "RelatorioRGFDividaConsolidadaLiquida_5 (1).csv"
-    try:
-        df_data = load_and_clean_data(default_file)
-    except Exception as e:
-        st.error(f"Erro ao carregar o arquivo padrão: {e}. Por favor, faça o upload do CSV na barra lateral.")
-        st.stop()
-
-# Seleção de Quadrimestre para Visualização nos Cards
-periodos = ["Até Exer. Anterior", "1º Quadrimestre", "2º Quadrimestre", "3º Quadrimestre"]
-periodo_sel = st.sidebar.selectbox("Selecione o Período para Destaque (KPIs):", periodos, index=3)
-
-st.sidebar.markdown("---")
 st.sidebar.info(
     "💡 **Sobre este Relatório:**\n"
     "Demonstrativo da Dívida Consolidada Líquida (RGF) conforme a Lei de Responsabilidade Fiscal (LRF)."
 )
+
+# ==========================================
+# PAINEL PRINCIPAL & FILTROS NO TOPO
+# ==========================================
+st.title("📊 Relatório de Gestão Fiscal — DCL e Endividamento")
+st.caption("Acompanhamento dos limites da Lei de Responsabilidade Fiscal (LRF) e Resoluções do Senado Federal.")
+
+# --- FILTROS E CONTROLES NO TOPO ---
+with st.expander("⚙️ **Navegação & Filtros do Relatório**", expanded=True):
+    col_up, col_sel = st.columns([2, 2])
+    
+    with col_up:
+        uploaded_file = st.file_uploader("Carregar outro arquivo CSV", type=["csv"], key="top_uploader")
+        
+    with col_sel:
+        periodos = ["Até Exer. Anterior", "1º Quadrimestre", "2º Quadrimestre", "3º Quadrimestre"]
+        periodo_sel = st.selectbox("Selecione o Período para Destaque (KPIs):", periodos, index=3)
+
+# Carregamento dos dados com base no upload feito no topo
+if uploaded_file is not None:
+    df_data = load_and_clean_data(uploaded_file)
+else:
+    default_file = "RelatorioRGFDividaConsolidadaLiquida_5 (1).csv"
+    try:
+        df_data = load_and_clean_data(default_file)
+    except Exception as e:
+        st.error(f"Erro ao carregar o arquivo padrão: {e}. Por favor, faça o upload do CSV nos filtros acima.")
+        st.stop()
+
+st.markdown("---")
 
 # ==========================================
 # EXTRAÇÃO DE MÉTRICAS PRINCIPAIS
