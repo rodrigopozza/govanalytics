@@ -1,2 +1,0 @@
-# govanalytics
-Inteligencia e Transparencia 

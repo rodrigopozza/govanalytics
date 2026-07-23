@@ -134,7 +134,7 @@ def formatar_milhoes(valor):
     return formatar_brl(valor)
 
 # -----------------------------------------------------------------------------
-# 1. LEITURA E TRATAMENTO DOS DADOS (CORRIGIDO PARA CAPTURAR 10,45%)
+# 1. LEITURA E TRATAMENTO DOS DADOS
 # -----------------------------------------------------------------------------
 @st.cache_data
 def carregar_e_tratar_dados_educacao(file):
@@ -232,13 +232,11 @@ def carregar_e_tratar_dados_educacao(file):
                     pct_profissionais_fundeb = val
                     break
 
-    # BUSCA EXTRA PRECISA DA LINHA 18 (Superávit FUNDEB)
+    # Busca Superávit FUNDEB
     for l in linhas:
         if "18" in l and ("RECEITA RECEBIDA E NÃO APLICADA" in l.upper() or "TOTAL DA RECEITA" in l.upper()):
-            # Extrai todos os valores numéricos com vírgula ou ponto da linha
             numeros = re.findall(r'[\d\.]+\,\d+|[\d\.]+', l)
             if numeros:
-                # O último número da linha 18 é a porcentagem (ex: 10,45)
                 pct_superavit_fundeb = limpar_valor(numeros[-1])
             break
 
@@ -255,7 +253,7 @@ def carregar_e_tratar_dados_educacao(file):
 # -----------------------------------------------------------------------------
 # 2. CARREGAMENTO DO ARQUIVO
 # -----------------------------------------------------------------------------
-csv_path = r"C:\Users\rodrigop\Python\GOV-ANALYTICS\GOV-ANALYTICS\RelatorioRREORecDespMDE_6.csv"
+csv_path = r"C:\Users\IPM\Desktop\dashbords\govanalytics\RelatorioRREORecDespMDE_6.csv"
 
 source = None
 if os.path.exists(csv_path):
@@ -458,7 +456,6 @@ st.dataframe(
 )
 
 st.markdown("---")
-
 
 # --- BLOCO 4: DETALHANDO OS INVESTIMENTOS NA EDUCAÇÃO ---
 st.header("Detalhando os Investimentos")

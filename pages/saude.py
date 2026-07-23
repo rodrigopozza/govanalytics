@@ -6,11 +6,10 @@ import os
 
 st.set_page_config(layout="wide", page_title="Análise RREO - Anexo 12 (Saúde)")
 
-import streamlit as st
-
 with st.sidebar:
     if st.button("⬅️ Voltar ao Início", use_container_width=True):
         st.switch_page("acoes.py")
+
 # -----------------------------------------------------------------------------
 # ESTILIZAÇÃO CSS GLOBAL (Fonte Inter, Minimalismo & Cards Unificados)
 # -----------------------------------------------------------------------------
@@ -204,7 +203,7 @@ def carregar_e_tratar_dados(file):
 # -----------------------------------------------------------------------------
 # 2. CARREGAMENTO DO ARQUIVO LOCAL OU VIA UPLOAD
 # -----------------------------------------------------------------------------
-csv_path = r"C:\Users\rodrigop\Python\GOV-ANALYTICS\GOV-ANALYTICS\RelatorioRREORecDespAcoesServPublicoSaude_3.csv"
+csv_path = r"C:\Users\IPM\Desktop\dashbords\govanalytics\RelatorioRREORecDespAcoesServPublicoSaude_3.csv"
 
 source = None
 if os.path.exists(csv_path):

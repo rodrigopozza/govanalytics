@@ -24,7 +24,6 @@ def parse_br_number(val):
     if isinstance(val, (int, float)):
         return float(val)
     val_str = str(val).strip().replace(" ", "")
-    # Tratamento para sinal negativo com espaço
     if val_str.startswith("-"):
         val_str = "-" + val_str[1:]
     val_str = val_str.replace(".", "").replace(",", ".")
@@ -38,10 +37,8 @@ def load_and_clean_data(file_path_or_buffer):
     """Carrega o CSV e formata a tabela principal do RGF."""
     df_raw = pd.read_csv(file_path_or_buffer)
     
-    # Selecionar as primeiras 33 linhas referentes à tabela principal do RGF
     df_main = df_raw.iloc[0:33, :].copy()
     
-    # Renomear colunas
     df_main.columns = [
         "Exercicio", 
         "Especificacao", 
@@ -51,20 +48,17 @@ def load_and_clean_data(file_path_or_buffer):
         "3º Quadrimestre"
     ]
     
-    # Limpar espaços nos nomes das especificações
     df_main["Especificacao"] = df_main["Especificacao"].str.strip()
     
-    # Colunas de valores
     val_cols = ["Até Exer. Anterior", "1º Quadrimestre", "2º Quadrimestre", "3º Quadrimestre"]
     
-    # Converter valores
     for col in val_cols:
         df_main[col] = df_main[col].apply(parse_br_number)
         
     return df_main
 
 # ==========================================
-# BARRA LATERAL (SIDEBAR) - NAVEGAÇÃO DE PÁGINAS
+# BARRA LATERAL (SIDEBAR)
 # ==========================================
 st.sidebar.image("https://img.icons8.com/color/96/line-chart.png", width=60)
 st.sidebar.title("📌 Menu do Sistema")
@@ -73,7 +67,6 @@ st.sidebar.markdown("""
 **Dashboards Disponíveis:**
 - 📊 **Dívida Consolidada Líquida (Atual)**
 ---
-*Adicione novos arquivos `.py` na pasta `pages/` para criar relatórios adicionais no menu automático do Streamlit.*
 """)
 
 st.sidebar.info(
@@ -87,7 +80,6 @@ st.sidebar.info(
 st.title("📊 Relatório de Gestão Fiscal — DCL e Endividamento")
 st.caption("Acompanhamento dos limites da Lei de Responsabilidade Fiscal (LRF) e Resoluções do Senado Federal.")
 
-# --- FILTROS E CONTROLES NO TOPO ---
 with st.expander("⚙️ **Navegação & Filtros do Relatório**", expanded=True):
     col_up, col_sel = st.columns([2, 2])
     
@@ -96,13 +88,13 @@ with st.expander("⚙️ **Navegação & Filtros do Relatório**", expanded=True
         
     with col_sel:
         periodos = ["Até Exer. Anterior", "1º Quadrimestre", "2º Quadrimestre", "3º Quadrimestre"]
-        periodo_sel = st.selectbox("Selecione o Período para Destaque (KPIs):", periodos, index=3)
+        periodo_sel = st.selectbox("Selecione o Período para Destaque (KPIs):", periodos, index=1)
 
-# Carregamento dos dados com base no upload feito no topo
+# Carregamento dos dados
 if uploaded_file is not None:
     df_data = load_and_clean_data(uploaded_file)
 else:
-    default_file = "RelatorioRGFDividaConsolidadaLiquida_5 (1).csv"
+    default_file = r"C:\Users\IPM\Desktop\dashbords\govanalytics\RelatorioRGFDividaConsolidadaLiquida_5.csv"
     try:
         df_data = load_and_clean_data(default_file)
     except Exception as e:
@@ -127,14 +119,6 @@ rcl_val = get_value("RECEITA CORRENTE LÍQUIDA AJUSTADA PARA CÁLCULO DOS LIMITE
 limite_senado = get_value("LIMITE DEFINIDO POR RESOLUÇÃO DO SENADO FEDERAL: (120% da RCL AJUSTADA)", periodo_sel)
 limite_alerta = get_value("LIMITE DE ALERTA (inciso III do § 1º do art. 59 da LRF): (108% da RCL AJUSTADA)", periodo_sel)
 pct_dcl = get_value("% DA DCL SOBRE A RCL (III/VI)", periodo_sel)
-
-# ==========================================
-# PAINEL PRINCIPAL
-# ==========================================
-st.title("📊 Relatório de Gestão Fiscal — DCL e Endividamento")
-st.caption("Acompanhamento dos limites da Lei de Responsabilidade Fiscal (LRF) e Resoluções do Senado Federal.")
-
-st.markdown("---")
 
 # ==========================================
 # CARDS DE MÉTRICAS (KPIs)
@@ -179,9 +163,6 @@ tab_evolucao, tab_limites, tab_composicao, tab_dados = st.tabs([
     "📄 Tabela Completa"
 ])
 
-# ------------------------------------------
-# TAB 1: EVOLUÇÃO
-# ------------------------------------------
 with tab_evolucao:
     st.subheader("Evolução da DC, Deduções e DCL ao longo dos Quadrimestres")
     
@@ -211,13 +192,9 @@ with tab_evolucao:
     fig_evol.update_layout(hovermode="x unified", legend=dict(orientation="h", y=-0.2))
     st.plotly_chart(fig_evol, use_container_width=True)
 
-# ------------------------------------------
-# TAB 2: LIMITES
-# ------------------------------------------
 with tab_limites:
     st.subheader("Comparativo com Limites Legais (LRF e Resolução do Senado)")
     
-    # Preparar dados para o gráfico de limites
     df_lim = pd.DataFrame({
         "Período": periodos,
         "Dívida Consolidada Líquida (DCL)": [get_value("DÍVIDA CONSOLIDADA LÍQUIDA – DCL (III) = (I – II)", p) for p in periodos],
@@ -264,9 +241,6 @@ with tab_limites:
         "o montante da dívida consolidada, mantendo o ente muito abaixo de todos os limites de alerta e máximo."
     )
 
-# ------------------------------------------
-# TAB 3: COMPOSIÇÃO
-# ------------------------------------------
 with tab_composicao:
     col_comp1, col_comp2 = st.columns(2)
     
@@ -277,44 +251,46 @@ with tab_composicao:
         
         df_comp_dc = pd.DataFrame({
             "Categoria": ["Financiamentos", "Parcelamento / Renegociação"],
-            "Valor": [financ, parcel]
+            "Valor": [max(0, financ), max(0, parcel)]
         })
         
-        fig_pie_dc = px.pie(
-            df_comp_dc, 
-            names="Categoria", 
-            values="Valor", 
-            title=f"Detalhamento da Dívida - {periodo_sel}",
-            hole=0.4
-        )
-        st.plotly_chart(fig_pie_dc, use_container_width=True)
+        if df_comp_dc["Valor"].sum() > 0:
+            fig_pie_dc = px.pie(
+                df_comp_dc, 
+                names="Categoria", 
+                values="Valor", 
+                title=f"Detalhamento da Dívida - {periodo_sel}",
+                hole=0.4
+            )
+            st.plotly_chart(fig_pie_dc, use_container_width=True)
+        else:
+            st.info("ℹ️ Não há valores positivos para exibir na composição da dívida neste período.")
         
     with col_comp2:
-        st.subheader("Composição das Deduções")
+        st.subheader("Deduções")
         disp_caixa = get_value("Disponibilidade de Caixa", periodo_sel)
         haveres = get_value("Demais Haveres Financeiros", periodo_sel)
         
         df_comp_ded = pd.DataFrame({
-            "Categoria": ["Disponibilidade de Caixa Líquida", "Demais Haveres Financeiros"],
-            "Valor": [disp_caixa, haveres]
+            "Categoria": ["Disponibilidade de Caixa", "Demais Haveres Financeiros"],
+            "Valor": [max(0, disp_caixa), max(0, haveres)]
         })
         
-        fig_pie_ded = px.pie(
-            df_comp_ded, 
-            names="Categoria", 
-            values="Valor", 
-            title=f"Detalhamento das Deduções - {periodo_sel}",
-            hole=0.4
-        )
-        st.plotly_chart(fig_pie_ded, use_container_width=True)
+        if df_comp_ded["Valor"].sum() > 0:
+            fig_pie_ded = px.pie(
+                df_comp_ded, 
+                names="Categoria", 
+                values="Valor", 
+                title=f"Detalhamento das Deduções - {periodo_sel}",
+                hole=0.4
+            )
+            st.plotly_chart(fig_pie_ded, use_container_width=True)
+        else:
+            st.info("ℹ️ Não há valores positivos para exibir na composição das deduções neste período.")
 
-# ------------------------------------------
-# TAB 4: TABELA
-# ------------------------------------------
 with tab_dados:
     st.subheader("Visão Tabela — Demonstrativo Resumido")
     
-    # 1. Lista de linhas "filhas" / detalhamentos que devem ser REMOVIDOS da exibição
     linhas_para_remover = [
         "Internos",
         "Externos",
@@ -325,10 +301,8 @@ with tab_dados:
         "Com Instituição Não Financeira"
     ]
     
-    # Filtrar o dataframe para remover as linhas filhas
     df_filtered = df_data[~df_data["Especificacao"].isin(linhas_para_remover)].copy()
     
-    # Listas de especificações para aplicar Destaque Visual (Estilização)
     linhas_destaque_total = [
         "DÍVIDA CONSOLIDADA – DC (I)",
         "DEDUÇÕES (II)",
@@ -347,7 +321,6 @@ with tab_dados:
         "Demais Haveres Financeiros"
     ]
 
-    # Formatar os valores para o padrão brasileiro de moeda para exibição
     val_cols = ["Até Exer. Anterior", "1º Quadrimestre", "2º Quadrimestre", "3º Quadrimestre"]
     df_display = df_filtered.copy()
     
@@ -356,24 +329,19 @@ with tab_dados:
             lambda x: f"{x:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".") if pd.notna(x) else "-"
         )
 
-    # 2. Função para aplicar os estilos CSS/Pandas Styler na tabela
     def highlight_rows(row):
         spec = str(row["Especificacao"]).strip()
         
-        # Estilo para os Grandes Totais e Resultados Principais (Fundo destacado e negrito)
         if spec in linhas_destaque_total:
             return ['background-color: #1f2937; color: #ffffff; font-weight: bold;'] * len(row)
             
-        # Estilo para os Subtotais intermediários (Negrito simples)
         elif spec in linhas_destaque_subtotal or "LIMITE" in spec or "%" in spec:
             return ['font-weight: bold; background-color: #f3f4f6; color: #111827;'] * len(row)
             
         return [''] * len(row)
 
-    # Aplicar a estilização
     styled_df = df_display.style.apply(highlight_rows, axis=1)
 
-    # Exibir a tabela com o Pandas Styler ativado
     st.dataframe(
         styled_df, 
         use_container_width=True, 
@@ -381,7 +349,6 @@ with tab_dados:
         hide_index=True
     )
     
-    # Botão de download dos dados filtrados
     csv_download = df_filtered.to_csv(index=False).encode('utf-8-sig')
     st.download_button(
         label="📥 Baixar Dados Tratados e Resumidos (CSV)",
