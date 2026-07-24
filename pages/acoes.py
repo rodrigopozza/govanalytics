@@ -403,7 +403,8 @@ elif tab_choice == "Análise por Programas":
     fig_prog = pdx.bar(sub_df, x='Código da Ação', y=['Meta Física Estimada', 'Meta Física Alcançada'],
                         barmode='group', title=f"Metas Físicas (Estimada vs Alcançada) - {prog_options[prog_selected_key]}",
                         color_discrete_sequence=['#1351B4', '#FFCD07'])
-    fig_prog.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font_family="Rawline, Inter")
+    fig_prog.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font_family="Rawline, Inter",
+        bargap=0.3, bargroupgap=0.05)
     st.plotly_chart(fig_prog, use_container_width=True)
 
 # ==========================================
