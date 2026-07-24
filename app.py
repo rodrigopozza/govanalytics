@@ -5,10 +5,10 @@ import streamlit as st
 # CONFIGURAÇÃO DA PÁGINA
 # ==========================================
 st.set_page_config(
-    page_title="Gov Analytics — Navegação",
+    page_title="Gov Analytics",
     page_icon="📊",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="expanded"
 )
 
 # ==========================================
@@ -51,16 +51,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ==========================================
-# CONFIGURAÇÃO DA BARRA LATERAL (TOPO)
-# ==========================================
-with st.sidebar:
-    # Logo no topo da barra lateral (Via GitHub)
-    st.image(
-        "https://raw.githubusercontent.com/rodrigopozza/govanalytics/main/pages/logo.png",
-        use_container_width=True,
-    )
-    st.markdown("---")
 
 # ==========================================
 # DEFINIÇÃO E EXECUÇÃO DA NAVEGAÇÃO
