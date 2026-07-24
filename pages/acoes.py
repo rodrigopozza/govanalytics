@@ -404,7 +404,7 @@ elif tab_choice == "Análise por Programas":
                         barmode='group', title=f"Metas Físicas (Estimada vs Alcançada) - {prog_options[prog_selected_key]}",
                         color_discrete_sequence=['#1351B4', '#FFCD07'])
     fig_prog.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font_family="Rawline, Inter",
-        bargap=0.3, bargroupgap=0.05)
+        bargap=0.9, bargroupgap=0.10)
     st.plotly_chart(fig_prog, use_container_width=True)
 
 # ==========================================
