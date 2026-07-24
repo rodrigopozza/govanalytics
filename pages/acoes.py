@@ -91,7 +91,7 @@ st.markdown("""
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 12px;
+            margin-bottom: 35px;
         }
         
         .card-kpi-title {
