@@ -7,7 +7,17 @@ import streamlit as st
 st.set_page_config(
     layout="wide", page_title="Análise RREO - Anexo 12 (Saúde)", page_icon="📊"
 )
-
+# ==========================================
+# CONFIGURAÇÃO DA BARRA LATERAL (TOPO)
+# ==========================================
+with st.sidebar:
+    # Logo no topo à esquerda
+    st.image("logo.png", use_container_width=True)
+    st.markdown("---")
+    
+    # Exemplo de conteúdo do menu que você já tem ou vai usar:
+    st.markdown("### Navegação")
+    # (Seus filtros ou links da barra lateral entram aqui)
 # -----------------------------------------------------------------------------
 # ESTILIZAÇÃO CSS GLOBAL (Padrão GOV.BR & Design System Institucional)
 # -----------------------------------------------------------------------------
@@ -602,3 +612,9 @@ with card_col3:
     """,
       unsafe_allow_html=True,
   )
+# RODAPÉ DA PÁGINA PRINCIPAL (FINAL DO SCRIPT)
+# ==========================================
+st.markdown("---")
+col_esq, col_centro, col_dir = st.columns([2, 1, 2])
+with col_centro:
+    st.image("logo.png", use_container_width=True)

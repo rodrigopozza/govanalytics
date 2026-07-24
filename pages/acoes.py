@@ -9,11 +9,22 @@ import numpy as np
 # ==========================================
 st.set_page_config(
     page_title="Dashboard de Metas - Programas e Ações",
-    page_icon="🇧🇷",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
+# ==========================================
+# CONFIGURAÇÃO DA BARRA LATERAL (TOPO)
+# ==========================================
+with st.sidebar:
+    # 1. Logo no topo da barra lateral
+    st.image("logo.png", use_container_width=True)
+    
+    # 2. Título opcional abaixo da logo (sem nenhum texto de ícone quebrado)
+   
+    st.markdown("---")
+    
+    # Seus outros elementos da barra lateral continuam aqui...
 # ==========================================
 # ESTILIZAÇÃO CSS GLOBAL - DESIGN SYSTEM GOV.BR
 # ==========================================
@@ -26,17 +37,7 @@ st.markdown("""
             color: #141414;
         }
 
-        /* Barra superior institucional simulando a barra do Governo */
-        header::before {
-            content: "GovAnalytics";
-            display: block;
-            background-color: #004587;
-            color: #ffffff;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 16px;
-            letter-spacing: 0.05em;
-        }
+       
 
         /* Alinhamento à esquerda padrão do GOV.BR */
         h1, h2, h3, .stMarkdown p {
@@ -436,3 +437,10 @@ elif tab_choice == "Análise por Ações":
             st.metric("Dotação Final", f"R$ {act_row['Dotação Final']:,.2f}")
             st.metric("Valor Liquidado", f"R$ {act_row['Valor Liquidado']:,.2f}")
             st.metric("Execução Financeira (%)", f"{act_row['% Exec. Financeira']:.2f}%")
+# ==========================================
+# RODAPÉ DA PÁGINA PRINCIPAL (FINAL DO SCRIPT)
+# ==========================================
+st.markdown("---")
+col_esq, col_centro, col_dir = st.columns([2, 1, 2])
+with col_centro:
+    st.image("logo.png", use_container_width=True)
