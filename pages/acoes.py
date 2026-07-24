@@ -119,8 +119,8 @@ def load_data():
 # Chamada garantida da base de dados logo após a definição
 df = load_data()
 
-st.title("Monitoramento Estratégico de Metas Físicas e Financeiras")
-st.markdown("Hierarquia: **Programas >> Ações**. Análise detalhada de execução financeira (Dotação vs. Liquidado) e metas físicas.")
+st.title("Programs e Ações de Governo")
+st.markdown("Monitoramento Estratégico de Metas Físicas e Financeiras")
 
 st.markdown("---")
 
