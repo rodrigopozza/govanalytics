@@ -7,17 +7,26 @@ import streamlit as st
 st.set_page_config(
     layout="wide", page_title="Análise RREO - Anexo 12 (Saúde)", page_icon="📊"
 )
+
+# Caminho absoluto seguro para a logo na raiz do repositório
+logo_path = os.path.join(os.path.dirname(__file__), "logo.png")
+
 # ==========================================
 # CONFIGURAÇÃO DA BARRA LATERAL (TOPO)
 # ==========================================
 with st.sidebar:
-    # Logo no topo à esquerda
-    st.image("logo.png", use_container_width=True)
+    # 1. Logo no topo da barra lateral com fallback caso o arquivo não exista
+    if os.path.exists(logo_path):
+        st.image(logo_path, use_container_width=True)
+    else:
+        st.image("logo.png", use_container_width=True)
+        
     st.markdown("---")
     
     # Exemplo de conteúdo do menu que você já tem ou vai usar:
     st.markdown("### Navegação")
     # (Seus filtros ou links da barra lateral entram aqui)
+
 # -----------------------------------------------------------------------------
 # ESTILIZAÇÃO CSS GLOBAL (Padrão GOV.BR & Design System Institucional)
 # -----------------------------------------------------------------------------
@@ -31,18 +40,6 @@ st.markdown(
         html, body, [class*="css"], [class*="st-"] {
             font-family: 'Rawline', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
             color: #141414;
-        }
-
-        /* Barra superior institucional simulando a barra do Governo Federal/Estadual */
-        header::before {
-            content: "GovAnalytics";
-            display: block;
-            background-color: #004587;
-            color: #ffffff;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 16px;
-            letter-spacing: 0.05em;
         }
 
         /* Alinhamento e Cores de Títulos no Padrão Gov.br */
@@ -161,17 +158,17 @@ st.markdown(
 
 # Helper para formatação de moeda em padrão BRL
 def formatar_brl(valor):
-  return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 
 # Helper para formatação amigável em Milhões
 def formatar_milhoes(valor):
-  if valor >= 1_000_000:
-    return (
-        f"R$ {valor / 1_000_000:,.1f} Milhões".replace(".", ",")
-        .replace("Milhões", "milhões")
-    )
-  return formatar_brl(valor)
+    if valor >= 1_000_000:
+        return (
+            f"R$ {valor / 1_000_000:,.1f} Milhões".replace(".", ",")
+            .replace("Milhões", "milhões")
+        )
+    return formatar_brl(valor)
 
 
 # -----------------------------------------------------------------------------
@@ -179,92 +176,92 @@ def formatar_milhoes(valor):
 # -----------------------------------------------------------------------------
 @st.cache_data
 def carregar_e_tratar_dados(file):
-  if isinstance(file, str):
-    with open(file, "r", encoding="utf-8-sig") as f:
-      linhas = f.readlines()
-  else:
-    linhas = [line.decode("utf-8-sig") for line in file.readlines()]
+    if isinstance(file, str):
+        with open(file, "r", encoding="utf-8-sig") as f:
+            linhas = f.readlines()
+    else:
+        linhas = [line.decode("utf-8-sig") for line in file.readlines()]
 
-  def limpar_valor(val):
-    if pd.isna(val) or val == "" or val == "-" or str(val).isspace():
-      return 0.0
-    val_str = str(val).replace(".", "").replace(",", ".").strip()
-    try:
-      return float(val_str)
-    except ValueError:
-      return 0.0
+    def limpar_valor(val):
+        if pd.isna(val) or val == "" or val == "-" or str(val).isspace():
+            return 0.0
+        val_str = str(val).replace(".", "").replace(",", ".").strip()
+        try:
+            return float(val_str)
+        except ValueError:
+            return 0.0
 
-  # 1.1 Receitas
-  linhas_receitas = [l.strip() for l in linhas[0:14] if l.strip()]
-  data_rec = [list(csv.reader([l]))[0] for l in linhas_receitas[1:]]
-  df_rec = pd.DataFrame(
-      data_rec,
-      columns=[
-          "Item de Receita",
-          "Previsão Inicial",
-          "Previsão Atualizada",
-          "Realizado até o Bimestre",
-          "% Realizado",
-      ],
-  )
+    # 1.1 Receitas
+    linhas_receitas = [l.strip() for l in linhas[0:14] if l.strip()]
+    data_rec = [list(csv.reader([l]))[0] for l in linhas_receitas[1:]]
+    df_rec = pd.DataFrame(
+        data_rec,
+        columns=[
+            "Item de Receita",
+            "Previsão Inicial",
+            "Previsão Atualizada",
+            "Realizado até o Bimestre",
+            "% Realizado",
+        ],
+    )
 
-  for col in [
-      "Previsão Inicial",
-      "Previsão Atualizada",
-      "Realizado até o Bimestre",
-  ]:
-    df_rec[col] = df_rec[col].apply(limpar_valor)
-  df_rec["% Realizado"] = df_rec["% Realizado"].str.replace(",", ".").astype(float)
+    for col in [
+        "Previsão Inicial",
+        "Previsão Atualizada",
+        "Realizado até o Bimestre",
+    ]:
+        df_rec[col] = df_rec[col].apply(limpar_valor)
+    df_rec["% Realizado"] = df_rec["% Realizado"].str.replace(",", ".").astype(float)
 
-  # 1.2 Despesas Próprias da Saúde
-  linhas_desp = [l.strip() for l in linhas[15:38] if l.strip()]
-  data_desp = [list(csv.reader([l]))[0] for l in linhas_desp[1:]]
-  cols_desp = [
-      "Subfunção",
-      "Dotação Inicial",
-      "Dotação Atualizada",
-      "Despesas Empenhadas",
-      "% Emp",
-      "Despesas Liquidadas",
-      "% Liq",
-      "Despesas Pagas",
-      "% Pag",
-  ]
-  df_desp = pd.DataFrame(data_desp, columns=cols_desp)
+    # 1.2 Despesas Próprias da Saúde
+    linhas_desp = [l.strip() for l in linhas[15:38] if l.strip()]
+    data_desp = [list(csv.reader([l]))[0] for l in linhas_desp[1:]]
+    cols_desp = [
+        "Subfunção",
+        "Dotação Inicial",
+        "Dotação Atualizada",
+        "Despesas Empenhadas",
+        "% Emp",
+        "Despesas Liquidadas",
+        "% Liq",
+        "Despesas Pagas",
+        "% Pag",
+    ]
+    df_desp = pd.DataFrame(data_desp, columns=cols_desp)
 
-  for col in [
-      "Dotação Inicial",
-      "Dotação Atualizada",
-      "Despesas Empenhadas",
-      "Despesas Liquidadas",
-      "Despesas Pagas",
-  ]:
-    df_desp[col] = df_desp[col].apply(limpar_valor)
-  for col in ["% Emp", "% Liq", "% Pag"]:
-    df_desp[col] = df_desp[col].str.replace(",", ".").astype(float)
+    for col in [
+        "Dotação Inicial",
+        "Dotação Atualizada",
+        "Despesas Empenhadas",
+        "Despesas Liquidadas",
+        "Despesas Pagas",
+    ]:
+        df_desp[col] = df_desp[col].apply(limpar_valor)
+    for col in ["% Emp", "% Liq", "% Pag"]:
+        df_desp[col] = df_desp[col].str.replace(",", ".").astype(float)
 
-  # 1.3 Percentuais Oficiais
-  pct_empenhado_oficial = 0.0
-  pct_liquidado_oficial = 0.0
+    # 1.3 Percentuais Oficiais
+    pct_empenhado_oficial = 0.0
+    pct_liquidado_oficial = 0.0
 
-  for l in linhas:
-    if "PERCENTUAL DA RECEITA DE IMPOSTOS E TRANSFERÊNCIAS CONSTITUCIONAIS" in l:
-      row = list(csv.reader([l.strip()]))[0]
-      nums = []
-      for col in row:
-        if col.strip() and not col.strip().startswith("PERCENTUAL"):
-          val = limpar_valor(col)
-          if val > 0:
-            nums.append(val)
+    for l in linhas:
+        if "PERCENTUAL DA RECEITA DE IMPOSTOS E TRANSFERÊNCIAS CONSTITUCIONAIS" in l:
+            row = list(csv.reader([l.strip()]))[0]
+            nums = []
+            for col in row:
+                if col.strip() and not col.strip().startswith("PERCENTUAL"):
+                    val = limpar_valor(col)
+                    if val > 0:
+                        nums.append(val)
 
-      if len(nums) >= 2:
-        pct_empenhado_oficial = nums[0]
-        pct_liquidado_oficial = nums[1]
-      elif len(nums) == 1:
-        pct_empenhado_oficial = nums[0]
-      break
+            if len(nums) >= 2:
+                pct_empenhado_oficial = nums[0]
+                pct_liquidado_oficial = nums[1]
+            elif len(nums) == 1:
+                pct_empenhado_oficial = nums[0]
+            break
 
-  return df_rec, df_desp, pct_empenhado_oficial, pct_liquidado_oficial
+    return df_rec, df_desp, pct_empenhado_oficial, pct_liquidado_oficial
 
 
 # -----------------------------------------------------------------------------
@@ -277,23 +274,23 @@ csv_path = os.path.join(
 
 source = None
 if os.path.exists(csv_path):
-  source = csv_path
+    source = csv_path
 else:
-  uploaded_file = st.file_uploader("Selecione o arquivo RREO Anexo 12", type=["csv"])
-  if uploaded_file is not None:
-    source = uploaded_file
+    uploaded_file = st.file_uploader("Selecione o arquivo RREO Anexo 12", type=["csv"])
+    if uploaded_file is not None:
+        source = uploaded_file
 
 if source is None:
-  st.warning("Aguardando carregamento do arquivo CSV.")
-  st.stop()
+    st.warning("Aguardando carregamento do arquivo CSV.")
+    st.stop()
 
 try:
-  df_rec, df_desp, pct_empenhado_oficial, pct_liquidado_oficial = (
-      carregar_e_tratar_dados(source)
-  )
+    df_rec, df_desp, pct_empenhado_oficial, pct_liquidado_oficial = (
+        carregar_e_tratar_dados(source)
+    )
 except Exception as e:
-  st.error(f"Erro ao processar o arquivo CSV: {e}")
-  st.stop()
+    st.error(f"Erro ao processar o arquivo CSV: {e}")
+    st.stop()
 
 # -----------------------------------------------------------------------------
 # 3. VALORES PARA OS KPIS PRINCIPAIS
@@ -322,8 +319,8 @@ minimo_constitucional = 15.0
 
 
 def buscar_valor_subfuncao(nome):
-  row = df_desp[df_desp["Subfunção"].str.contains(nome, case=False, na=False)]
-  return row["Despesas Empenhadas"].values[0] if len(row) > 0 else 0.0
+    row = df_desp[df_desp["Subfunção"].str.contains(nome, case=False, na=False)]
+    return row["Despesas Empenhadas"].values[0] if len(row) > 0 else 0.0
 
 
 v_atencao_basica = buscar_valor_subfuncao("Atenção Básica")
@@ -357,8 +354,8 @@ kpi1, kpi2, kpi3, kpi4 = st.columns(4)
 delta_val = pct_empenhado_oficial - minimo_constitucional
 
 with kpi1:
-  st.markdown(
-      f"""
+    st.markdown(
+        f"""
         <div class="unified-card">
             <div class="card-icon-wrapper">{icon_chart}</div>
             <div class="card-kpi-title">% Aplicado (Empenhado)</div>
@@ -371,12 +368,12 @@ with kpi1:
             </div>
         </div>
     """,
-      unsafe_allow_html=True,
-  )
+        unsafe_allow_html=True,
+    )
 
 with kpi2:
-  st.markdown(
-      f"""
+    st.markdown(
+        f"""
         <div class="unified-card">
             <div class="card-icon-wrapper">{icon_check}</div>
             <div class="card-kpi-title">% Liquidado em Saúde</div>
@@ -389,12 +386,12 @@ with kpi2:
             </div>
         </div>
     """,
-      unsafe_allow_html=True,
-  )
+        unsafe_allow_html=True,
+    )
 
 with kpi3:
-  st.markdown(
-      f"""
+    st.markdown(
+        f"""
         <div class="unified-card">
             <div class="card-icon-wrapper">{icon_coin}</div>
             <div class="card-kpi-title">Receitas de Impostos Base</div>
@@ -407,12 +404,12 @@ with kpi3:
             </div>
         </div>
     """,
-      unsafe_allow_html=True,
-  )
+        unsafe_allow_html=True,
+    )
 
 with kpi4:
-  st.markdown(
-      f"""
+    st.markdown(
+        f"""
         <div class="unified-card">
             <div class="card-icon-wrapper">{icon_box}</div>
             <div class="card-kpi-title">Total Empenhado em Saúde</div>
@@ -425,8 +422,8 @@ with kpi4:
             </div>
         </div>
     """,
-      unsafe_allow_html=True,
-  )
+        unsafe_allow_html=True,
+    )
 
 st.markdown("---")
 
@@ -478,11 +475,11 @@ itens_negrito = [
 
 
 def destacar_totais(row):
-  if row["Item de Receita"] in itens_negrito:
-    return ["font-weight: 700; background-color: #f3f4f6; color: #0c326f;"] * len(
-        row
-    )
-  return [""] * len(row)
+    if row["Item de Receita"] in itens_negrito:
+        return ["font-weight: 700; background-color: #f3f4f6; color: #0c326f;"] * len(
+            row
+        )
+    return [""] * len(row)
 
 
 df_rec_styled = df_rec.style.apply(destacar_totais, axis=1).format({
@@ -566,8 +563,8 @@ icon_hospital = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 
 icon_shield = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751A11.959 11.959 0 0112 2.714z" /></svg>'
 
 with card_col1:
-  st.markdown(
-      f"""
+    st.markdown(
+        f"""
         <div class="unified-card">
             <div class="card-icon-wrapper">{icon_steth}</div>
             <div class="card-kpi-title">Atenção Básica</div>
@@ -578,12 +575,12 @@ with card_col1:
             </div>
         </div>
     """,
-      unsafe_allow_html=True,
-  )
+        unsafe_allow_html=True,
+    )
 
 with card_col2:
-  st.markdown(
-      f"""
+    st.markdown(
+        f"""
         <div class="unified-card">
             <div class="card-icon-wrapper">{icon_hospital}</div>
             <div class="card-kpi-title">Assistência Hospitalar</div>
@@ -594,12 +591,12 @@ with card_col2:
             </div>
         </div>
     """,
-      unsafe_allow_html=True,
-  )
+        unsafe_allow_html=True,
+    )
 
 with card_col3:
-  st.markdown(
-      f"""
+    st.markdown(
+        f"""
         <div class="unified-card">
             <div class="card-icon-wrapper">{icon_shield}</div>
             <div class="card-kpi-title">Vigilância em Saúde</div>
@@ -610,11 +607,16 @@ with card_col3:
             </div>
         </div>
     """,
-      unsafe_allow_html=True,
-  )
+        unsafe_allow_html=True,
+    )
+
+# ==========================================
 # RODAPÉ DA PÁGINA PRINCIPAL (FINAL DO SCRIPT)
 # ==========================================
 st.markdown("---")
 col_esq, col_centro, col_dir = st.columns([2, 1, 2])
 with col_centro:
-    st.image("logo.png", use_container_width=True)
+    if os.path.exists(logo_path):
+        st.image(logo_path, use_container_width=True)
+    else:
+        st.image("logo.png", use_container_width=True)

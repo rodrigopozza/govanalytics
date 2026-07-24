@@ -11,8 +11,8 @@ st.set_page_config(layout="wide", page_title="Análise RREO - Anexo 8 (Educaçã
 # CONFIGURAÇÃO DA BARRA LATERAL (TOPO)
 # ==========================================
 with st.sidebar:
-    # Logo no topo à esquerda
-    st.image("logo.png", use_container_width=True)
+    # Logo no topo à esquerda (URL do GitHub com o caminho da logo)
+    st.image("https://raw.githubusercontent.com/rodrigopozza/govanalytics/main/pages/logo.png", use_container_width=True)
     st.markdown("---")
     
     # Exemplo de conteúdo do menu que você já tem ou vai usar:
@@ -32,18 +32,7 @@ st.markdown("""
             color: #141414;
         }
 
-        /* Barra superior institucional simulando a barra do Governo */
-        header::before {
-            content: "GovAnalytics";
-            display: block;
-            background-color: #004587;
-            color: #ffffff;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 16px;
-            letter-spacing: 0.05em;
-        }
-
+       
         /* Alinhamento à esquerda padrão do GOV.BR */
         h1, h2, h3, .stMarkdown p {
             text-align: left;
@@ -535,4 +524,5 @@ with card_col3:
 st.markdown("---")
 col_esq, col_centro, col_dir = st.columns([2, 1, 2])
 with col_centro:
-    st.image("logo.png", use_container_width=True)    
+    # URL do GitHub com o caminho da logo aplicada no rodapé também
+    st.image("https://raw.githubusercontent.com/rodrigopozza/govanalytics/main/pages/logo.png", use_container_width=True)

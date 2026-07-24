@@ -19,13 +19,12 @@ st.set_page_config(
 # CONFIGURAÇÃO DA BARRA LATERAL (TOPO)
 # ==========================================
 with st.sidebar:
-    # Logo no topo à esquerda
-    st.image("logo.png", use_container_width=True)
+    # Logo no topo à esquerda (Via GitHub)
+    st.image("https://raw.githubusercontent.com/rodrigopozza/govanalytics/main/pages/logo.png", use_container_width=True)
     st.markdown("---")
     
-    # Exemplo de conteúdo do menu que você já tem ou vai usar:
+    # Exemplo de conteúdo do menu
     st.markdown("### Navegação")
-    # (Seus filtros ou links da barra lateral entram aqui)
 
 # ==========================================
 # ESTILIZAÇÃO CSS GLOBAL - DESIGN SYSTEM GOV.BR
@@ -39,19 +38,6 @@ st.markdown("""
             color: #141414;
         }
 
-        /* Barra superior institucional simulando a barra do Governo */
-        header::before {
-            content: "GovAnalytics";
-            display: block;
-            background-color: #004587;
-            color: #ffffff;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 16px;
-            letter-spacing: 0.05em;
-        }
-
-        /* Alinhamento à esquerda padrão do GOV.BR */
         h1, h2, h3, .stMarkdown p {
             text-align: left;
         }
@@ -75,7 +61,6 @@ st.markdown("""
             color: #2670e8 !important;
         }
 
-        /* CARDS NO ESTILO GOV.BR (Borda lateral azul institucional) */
         .unified-card {
             background-color: #ffffff;
             border: 1px solid #d7d7d7;
@@ -155,7 +140,6 @@ st.markdown("""
 # FUNÇÃO PARA TRATAMENTO DE DADOS
 # ==========================================
 def parse_br_number(val):
-    """Converte números no formato brasileiro ('1.234,56' ou '- 1.234,56') para float."""
     if pd.isna(val):
         return np.nan
     if isinstance(val, (int, float)):
@@ -171,11 +155,8 @@ def parse_br_number(val):
 
 @st.cache_data
 def load_and_clean_data(file_path_or_buffer):
-    """Carrega o CSV e formata a tabela principal do RGF."""
     df_raw = pd.read_csv(file_path_or_buffer)
-    
     df_main = df_raw.iloc[0:33, :].copy()
-    
     df_main.columns = [
         "Exercicio", 
         "Especificacao", 
@@ -184,14 +165,10 @@ def load_and_clean_data(file_path_or_buffer):
         "2º Quadrimestre", 
         "3º Quadrimestre"
     ]
-    
     df_main["Especificacao"] = df_main["Especificacao"].str.strip()
-    
     val_cols = ["Até Exer. Anterior", "1º Quadrimestre", "2º Quadrimestre", "3º Quadrimestre"]
-    
     for col in val_cols:
         df_main[col] = df_main[col].apply(parse_br_number)
-        
     return df_main
 
 # ==========================================
@@ -220,10 +197,8 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Container interno para os inputs funcionarem perfeitamente no Streamlit
 with st.container():
     col_ex, col_sel = st.columns([2, 2])
-    
     with col_ex:
         if "Exercicio" in df_raw_data.columns:
             exercicios_disponiveis = sorted(df_raw_data["Exercicio"].dropna().unique().tolist())
@@ -232,12 +207,10 @@ with st.container():
             exercicio_sel = st.selectbox("Selecione o Exercício (Ano):", exercicios_disponiveis)
         else:
             exercicio_sel = None
-            
     with col_sel:
         periodos = ["Até Exer. Anterior", "1º Quadrimestre", "2º Quadrimestre", "3º Quadrimestre"]
         periodo_sel = st.selectbox("Selecione o Período para Destaque (KPIs):", periodos, index=1)
 
-# Filtrar dados pelo exercício selecionado, caso exista
 if exercicio_sel and "Exercicio" in df_raw_data.columns:
     df_data = df_raw_data[df_raw_data["Exercicio"] == exercicio_sel].copy()
     if df_data.empty:
@@ -259,13 +232,10 @@ def get_value(spec_name, period):
 dc_val = get_value("DÍVIDA CONSOLIDADA – DC (I)", periodo_sel)
 deduc_val = get_value("DEDUÇÕES (II)", periodo_sel)
 dcl_val = get_value("DÍVIDA CONSOLIDADA LÍQUIDA – DCL (III) = (I – II)", periodo_sel)
-rcl_val = get_value("RECEITA CORRENTE LÍQUIDA AJUSTADA PARA CÁLCULO DOS LIMITES DE ENDIVIDAMENTO (VI) = (IV - V)", periodo_sel)
-limite_senado = get_value("LIMITE DEFINIDO POR RESOLUÇÃO DO SENADO FEDERAL: (120% da RCL AJUSTADA)", periodo_sel)
-limite_alerta = get_value("LIMITE DE ALERTA (inciso III do § 1º do art. 59 da LRF): (108% da RCL AJUSTADA)", periodo_sel)
 pct_dcl = get_value("% DA DCL SOBRE A RCL (III/VI)", periodo_sel)
 
 # ==========================================
-# CARDS DE MÉTRICAS (KPIs) COM DESIGN GOV.BR
+# CARDS DE MÉTRICAS (KPIs)
 # ==========================================
 st.subheader(f"Indicadores Principais — {periodo_sel}")
 
@@ -284,9 +254,7 @@ with col1:
             <div class="card-kpi-title">Dívida Consolidada (DC)</div>
             <div class="card-kpi-value">{v_str}</div>
             <div class="card-divider"></div>
-            <div class="card-explanation">
-                Montante total das obrigações financeiras do ente.
-            </div>
+            <div class="card-explanation">Montante total das obrigações financeiras do ente.</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -298,9 +266,7 @@ with col2:
             <div class="card-kpi-title">Deduções (Caixa/Haveres)</div>
             <div class="card-kpi-value">{v_str}</div>
             <div class="card-divider"></div>
-            <div class="card-explanation">
-                Disponibilidades de caixa e demais haveres financeiros dedutíveis.
-            </div>
+            <div class="card-explanation">Disponibilidades de caixa e demais haveres financeiros dedutíveis.</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -315,9 +281,7 @@ with col3:
             <div class="card-kpi-value">{v_str}</div>
             <div class="card-kpi-delta" style="color: {cor_delta};">{delta_texto}</div>
             <div class="card-divider"></div>
-            <div class="card-explanation">
-                Resultado líquido entre a Dívida Consolidada e as Deduções (DC - Deduções).
-            </div>
+            <div class="card-explanation">Resultado líquido entre a Dívida Consolidada e as Deduções.</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -330,16 +294,14 @@ with col4:
             <div class="card-kpi-value">{v_str}</div>
             <div class="card-kpi-delta" style="color: #059669;">Abaixo do Limite (120%)</div>
             <div class="card-divider"></div>
-            <div class="card-explanation">
-                Percentual de comprometimento da Receita Corrente Líquida Ajustada.
-            </div>
+            <div class="card-explanation">Percentual de comprometimento da Receita Corrente Líquida Ajustada.</div>
         </div>
     """, unsafe_allow_html=True)
 
 st.markdown("---")
 
 # ==========================================
-# GRÁFICOS INTERATIVOS
+# GRÁFICOS INTERATIVOS E TABELAS
 # ==========================================
 tab_evolucao, tab_limites, tab_composicao, tab_dados = st.tabs([
     "📈 Evolução dos Saldos", 
@@ -350,41 +312,20 @@ tab_evolucao, tab_limites, tab_composicao, tab_dados = st.tabs([
 
 with tab_evolucao:
     st.subheader("Evolução da DC, Deduções e DCL ao longo dos Quadrimestres")
-    
     items_to_plot = [
         "DÍVIDA CONSOLIDADA – DC (I)",
         "DEDUÇÕES (II)",
         "DÍVIDA CONSOLIDADA LÍQUIDA – DCL (III) = (I – II)"
     ]
-    
     df_evol = df_data[df_data["Especificacao"].isin(items_to_plot)].copy()
-    df_evol_melted = df_evol.melt(
-        id_vars=["Especificacao"], 
-        value_vars=periodos, 
-        var_name="Período", 
-        value_name="Valor (R$)"
-    )
+    df_evol_melted = df_evol.melt(id_vars=["Especificacao"], value_vars=periodos, var_name="Período", value_name="Valor (R$)")
     
-    fig_evol = px.line(
-        df_evol_melted, 
-        x="Período", 
-        y="Valor (R$)", 
-        color="Especificacao",
-        markers=True,
-        title="Comportamento dos Saldos ao Longo do Exercício",
-        labels={"Valor (R$)": "Valor (R$)", "Especificacao": "Item"}
-    )
-    fig_evol.update_layout(
-        font_family="Rawline, Inter",
-        title_x=0.5,
-        hovermode="x unified", 
-        legend=dict(orientation="h", y=-0.2)
-    )
+    fig_evol = px.line(df_evol_melted, x="Período", y="Valor (R$)", color="Especificacao", markers=True, title="Comportamento dos Saldos ao Longo do Exercício")
+    fig_evol.update_layout(font_family="Rawline, Inter", title_x=0.5, hovermode="x unified", legend=dict(orientation="h", y=-0.2))
     st.plotly_chart(fig_evol, use_container_width=True)
 
 with tab_limites:
     st.subheader("Comparativo com Limites Legais (LRF e Resolução do Senado)")
-    
     df_lim = pd.DataFrame({
         "Período": periodos,
         "Dívida Consolidada Líquida (DCL)": [get_value("DÍVIDA CONSOLIDADA LÍQUIDA – DCL (III) = (I – II)", p) for p in periodos],
@@ -393,92 +334,33 @@ with tab_limites:
     })
     
     fig_lim = go.Figure()
-    
-    fig_lim.add_trace(go.Bar(
-        x=df_lim["Período"],
-        y=df_lim["Dívida Consolidada Líquida (DCL)"],
-        name="DCL Realizada",
-        marker_color="#1351b4"
-    ))
-    
-    fig_lim.add_trace(go.Scatter(
-        x=df_lim["Período"],
-        y=df_lim["Limite de Alerta (108% RCL)"],
-        name="Limite de Alerta (108%)",
-        mode="lines+markers",
-        line=dict(color="orange", dash="dash")
-    ))
-    
-    fig_lim.add_trace(go.Scatter(
-        x=df_lim["Período"],
-        y=df_lim["Limite Máximo Senado (120% RCL)"],
-        name="Limite Máximo (120%)",
-        mode="lines+markers",
-        line=dict(color="red", width=2)
-    ))
-    
-    fig_lim.update_layout(
-        font_family="Rawline, Inter",
-        title_x=0.5,
-        title="DCL vs Limites de Alerta e Máximo do Senado",
-        yaxis_title="Valor (R$)",
-        hovermode="x unified",
-        legend=dict(orientation="h", y=-0.2)
-    )
-    
+    fig_lim.add_trace(go.Bar(x=df_lim["Período"], y=df_lim["Dívida Consolidada Líquida (DCL)"], name="DCL Realizada", marker_color="#1351b4"))
+    fig_lim.add_trace(go.Scatter(x=df_lim["Período"], y=df_lim["Limite de Alerta (108% RCL)"], name="Limite de Alerta (108%)", mode="lines+markers", line=dict(color="orange", dash="dash")))
+    fig_lim.add_trace(go.Scatter(x=df_lim["Período"], y=df_lim["Limite Máximo Senado (120% RCL)"], name="Limite Máximo (120%)", mode="lines+markers", line=dict(color="red", width=2)))
+    fig_lim.update_layout(font_family="Rawline, Inter", title_x=0.5, title="DCL vs Limites de Alerta e Máximo do Senado", yaxis_title="Valor (R$)", hovermode="x unified", legend=dict(orientation="h", y=-0.2))
     st.plotly_chart(fig_lim, use_container_width=True)
-    
-    st.success(
-        "✅ **Conclusão Fiscal:** Como a DCL encontra-se negativa no período, a disponibilidade de caixa supera "
-        "o montante da dívida consolidada, mantendo o ente muito abaixo de todos os limites de alerta e máximo."
-    )
 
 with tab_composicao:
     col_comp1, col_comp2 = st.columns(2)
-    
     with col_comp1:
         st.subheader("Composição da Dívida Contratual")
         financ = get_value("Financiamentos", periodo_sel)
         parcel = get_value("Parcelamento e Renegociação de dívidas", periodo_sel)
-        
-        df_comp_dc = pd.DataFrame({
-            "Categoria": ["Financiamentos", "Parcelamento / Renegociação"],
-            "Valor": [max(0, financ), max(0, parcel)]
-        })
-        
+        df_comp_dc = pd.DataFrame({"Categoria": ["Financiamentos", "Parcelamento / Renegociação"], "Valor": [max(0, financ), max(0, parcel)]})
         if df_comp_dc["Valor"].sum() > 0:
-            fig_pie_dc = px.pie(
-                df_comp_dc, 
-                names="Categoria", 
-                values="Valor", 
-                title=f"Detalhamento da Dívida - {periodo_sel}",
-                hole=0.4,
-                color_discrete_sequence=['#1351b4', '#2670e8']
-            )
+            fig_pie_dc = px.pie(df_comp_dc, names="Categoria", values="Valor", title=f"Detalhamento da Dívida - {periodo_sel}", hole=0.4, color_discrete_sequence=['#1351b4', '#2670e8'])
             fig_pie_dc.update_layout(font_family="Rawline, Inter", title_x=0.5)
             st.plotly_chart(fig_pie_dc, use_container_width=True)
         else:
             st.info("ℹ️ Não há valores positivos para exibir na composição da dívida neste período.")
-        
+            
     with col_comp2:
         st.subheader("Deduções")
         disp_caixa = get_value("Disponibilidade de Caixa", periodo_sel)
         haveres = get_value("Demais Haveres Financeiros", periodo_sel)
-        
-        df_comp_ded = pd.DataFrame({
-            "Categoria": ["Disponibilidade de Caixa", "Demais Haveres Financeiros"],
-            "Valor": [max(0, disp_caixa), max(0, haveres)]
-        })
-        
+        df_comp_ded = pd.DataFrame({"Categoria": ["Disponibilidade de Caixa", "Demais Haveres Financeiros"], "Valor": [max(0, disp_caixa), max(0, haveres)]})
         if df_comp_ded["Valor"].sum() > 0:
-            fig_pie_ded = px.pie(
-                df_comp_ded, 
-                names="Categoria", 
-                values="Valor", 
-                title=f"Detalhamento das Deduções - {periodo_sel}",
-                hole=0.4,
-                color_discrete_sequence=['#1351b4', '#5391ff']
-            )
+            fig_pie_ded = px.pie(df_comp_ded, names="Categoria", values="Valor", title=f"Detalhamento das Deduções - {periodo_sel}", hole=0.4, color_discrete_sequence=['#1351b4', '#5391ff'])
             fig_pie_ded.update_layout(font_family="Rawline, Inter", title_x=0.5)
             st.plotly_chart(fig_pie_ded, use_container_width=True)
         else:
@@ -486,76 +368,20 @@ with tab_composicao:
 
 with tab_dados:
     st.subheader("Visão Tabela — Demonstrativo Resumido")
-    
-    linhas_para_remover = [
-        "Internos",
-        "Externos",
-        "De Tributos",
-        "De Contribuições Previdenciárias",
-        "De Demais Contribuições Sociais",
-        "Do FGTS",
-        "Com Instituição Não Financeira"
-    ]
-    
+    linhas_para_remover = ["Internos", "Externos", "De Tributos", "De Contribuições Previdenciárias", "De Demais Contribuições Sociais", "Do FGTS", "Com Instituição Não Financeira"]
     df_filtered = df_data[~df_data["Especificacao"].isin(linhas_para_remover)].copy()
     
-    linhas_destaque_total = [
-        "DÍVIDA CONSOLIDADA – DC (I)",
-        "DEDUÇÕES (II)",
-        "DÍVIDA CONSOLIDADA LÍQUIDA – DCL (III) = (I – II)",
-        "RECEITA CORRENTE LÍQUIDA – RCL (IV)",
-        "RECEITA CORRENTE LÍQUIDA AJUSTADA PARA CÁLCULO DOS LIMITES DE ENDIVIDAMENTO (VI) = (IV - V)"
-    ]
-    
-    linhas_destaque_subtotal = [
-        "Dívida Contratual",
-        "Dívida Mobiliária",
-        "Financiamentos",
-        "Empréstimos",
-        "Parcelamento e Renegociação de dívidas",
-        "Disponibilidade de Caixa",
-        "Demais Haveres Financeiros"
-    ]
-
     val_cols = ["Até Exer. Anterior", "1º Quadrimestre", "2º Quadrimestre", "3º Quadrimestre"]
     df_display = df_filtered.copy()
-    
     for col in val_cols:
-        df_display[col] = df_display[col].apply(
-            lambda x: f"{x:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".") if pd.notna(x) else "-"
-        )
+        df_display[col] = df_display[col].apply(lambda x: f"{x:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".") if pd.notna(x) else "-")
 
-    def highlight_rows(row):
-        spec = str(row["Especificacao"]).strip()
-        
-        if spec in linhas_destaque_total:
-            return ['background-color: #0c326f; color: #ffffff; font-weight: bold;'] * len(row)
-            
-        elif spec in linhas_destaque_subtotal or "LIMITE" in spec or "%" in spec:
-            return ['font-weight: bold; background-color: #f3f4f6; color: #111827;'] * len(row)
-            
-        return [''] * len(row)
+    st.dataframe(df_display, use_container_width=True, height=600, hide_index=True)
 
-    styled_df = df_display.style.apply(highlight_rows, axis=1)
-
-    st.dataframe(
-        styled_df, 
-        use_container_width=True, 
-        height=600,
-        hide_index=True
-    )
-    
-    csv_download = df_filtered.to_csv(index=False).encode('utf-8-sig')
-    st.download_button(
-        label="📥 Baixar Dados Tratados e Resumidos (CSV)",
-        data=csv_download,
-        file_name="rgf_divida_consolidada_resumido.csv",
-        mime="text/csv"
-    )
 # ==========================================
-# RODAPÉ DA PÁGINA PRINCIPAL (FINAL DO SCRIPT)
+# RODAPÉ DA PÁGINA PRINCIPAL
 # ==========================================
 st.markdown("---")
 col_esq, col_centro, col_dir = st.columns([2, 1, 2])
 with col_centro:
-    st.image("logo.png", use_container_width=True)
+    st.image("https://raw.githubusercontent.com/rodrigopozza/govanalytics/main/pages/logo.png", use_container_width=True)
