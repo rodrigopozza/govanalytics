@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import plotly.express as pdx
@@ -91,13 +92,8 @@ PROGRAMAS_INFO = {
     "9999": {"nome": "RESERVA DE CONTINGÊNCIA", "icone": "🔒"}
 }
 
-import os
-import pandas as pd
-import streamlit as st
-
 @st.cache_data
 def load_data():
-    # Lista de possíveis caminhos onde o arquivo pode estar localizado no GitHub ou localmente
     possible_paths = [
         'IEGM - Acoes e Metas Programas e Indicadores (2).csv',
         os.path.join(os.path.dirname(__file__), 'IEGM - Acoes e Metas Programas e Indicadores (2).csv'),
@@ -112,16 +108,19 @@ def load_data():
             break
             
     if not filepath:
-        st.error("❌ Arquivo CSV não encontrado. Verifique se o arquivo 'IEGM - Acoes e Metas Programas e Indicadores (2).csv' foi enviado para o repositório do GitHub.")
+        st.error("❌ Arquivo CSV não encontrado. Verifique se 'IEGM - Acoes e Metas Programas e Indicadores (2).csv' está no repositório do GitHub.")
         st.stop()
         
-    df = pd.read_csv(filepath, encoding='latin1', sep=',', header=5)
-    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
-    df.columns = df.columns.str.replace('"', '').str.strip()
-    return df
+    df_loaded = pd.read_csv(filepath, encoding='latin1', sep=',', header=5)
+    df_loaded = df_loaded.loc[:, ~df_loaded.columns.str.contains('^Unnamed')]
+    df_loaded.columns = df_loaded.columns.str.replace('"', '').str.strip()
+    return df_loaded
 
-st.title("Programas e Ações de Governo")
-st.markdown("Monitoramento Estratégico de Metas Físicas e Financeiras")
+# Chamada garantida da base de dados logo após a definição
+df = load_data()
+
+st.title("Monitoramento Estratégico de Metas Físicas e Financeiras")
+st.markdown("Hierarquia: **Programas >> Ações**. Análise detalhada de execução financeira (Dotação vs. Liquidado) e metas físicas.")
 
 st.markdown("---")
 
@@ -134,7 +133,7 @@ tab_choice = st.radio(
 
 st.markdown("---")
 
-# Validação defensiva
+# Validação defensiva do DataFrame
 if 'Código Programa' not in df.columns:
     st.error(f"Erro crítico: A coluna 'Código Programa' não foi encontrada nas colunas disponíveis: {list(df.columns)}")
     st.stop()
@@ -269,7 +268,6 @@ elif tab_choice == "Análise por Ações":
     st.dataframe(filtered_actions[['Programa Formatado', 'Código da Ação', 'Descrição', 'Dotação Final', 'Valor Liquidado', '% Exec. Financeira', 'Meta Física Estimada', 'Meta Física Alcançada', '% Exec. Física']], use_container_width=True)
     
     if not filtered_actions.empty:
-        # Cria uma lista formatada para o selectbox exibir o código junto com a descrição
         filtered_actions['Opcao_Select'] = filtered_actions['Código da Ação Limpo'] + " - " + filtered_actions['Descrição']
         selected_option = st.selectbox("Selecione uma ação para detalhar:", filtered_actions['Opcao_Select'].unique())
         
