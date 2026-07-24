@@ -1,34 +1,38 @@
+import csv
 import os
-import streamlit as st
 import pandas as pd
-import plotly.express as pdx
 import numpy as np
+import plotly.express as pdx
+import streamlit as st
 
-# ==========================================
-# CONFIGURAÇÃO DA PÁGINA
-# ==========================================
 st.set_page_config(
     page_title="Dashboard de Metas - Programas e Ações",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
 )
+
+# Caminho absoluto seguro para a logo na raiz do repositório
+logo_path = os.path.join(os.path.dirname(__file__), "logo.png")
 
 # ==========================================
 # CONFIGURAÇÃO DA BARRA LATERAL (TOPO)
 # ==========================================
 with st.sidebar:
-    # 1. Logo no topo da barra lateral
-    st.image("logo.png", use_container_width=True)
-    
-    # 2. Título opcional abaixo da logo (sem nenhum texto de ícone quebrado)
-   
+    # 1. Logo no topo da barra lateral com fallback caso o arquivo não exista
+    if os.path.exists(logo_path):
+        st.image(logo_path, use_container_width=True)
+    else:
+        st.image("logo.png", use_container_width=True)
+
     st.markdown("---")
-    
+
     # Seus outros elementos da barra lateral continuam aqui...
+
 # ==========================================
 # ESTILIZAÇÃO CSS GLOBAL - DESIGN SYSTEM GOV.BR
 # ==========================================
-st.markdown("""
+st.markdown(
+    """
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rawline:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -36,8 +40,6 @@ st.markdown("""
             font-family: 'Rawline', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
             color: #141414;
         }
-
-       
 
         /* Alinhamento à esquerda padrão do GOV.BR */
         h1, h2, h3, .stMarkdown p {
@@ -50,11 +52,13 @@ st.markdown("""
             font-size: 2rem !important;
             border-bottom: 2px solid #004587;
             padding-bottom: 8px;
+            letter-spacing: -0.025em;
         }
 
         h2 {
             font-weight: 600 !important;
             color: #1351b4 !important;
+            letter-spacing: -0.02em;
             margin-top: 1.5rem !important;
         }
 
@@ -63,7 +67,7 @@ st.markdown("""
             color: #2670e8 !important;
         }
 
-        /* CARDS NO ESTILO GOV.BR (Borda lateral azul institucional) */
+        /* CARDS UNIFICADOS NO ESTILO GOV.BR (Borda lateral azul institucional) */
         .unified-card {
             background-color: #ffffff;
             border: 1px solid #d7d7d7;
@@ -93,9 +97,14 @@ st.markdown("""
             align-items: center;
             justify-content: center;
             margin-bottom: 12px;
-            font-size: 2.5rem;
         }
         
+        .card-icon-wrapper svg {
+            width: 18px;
+            height: 18px;
+            stroke: #1351b4;
+        }
+
         .card-kpi-title {
             color: #454545;
             font-size: 0.75rem;
@@ -109,10 +118,12 @@ st.markdown("""
             color: #0c326f;
             font-size: 1.5rem;
             font-weight: 700;
+            letter-spacing: -0.02em;
             margin-bottom: 4px;
         }
         
         .card-kpi-delta {
+            color: #059669;
             font-size: 0.8rem;
             font-weight: 600;
             margin-bottom: 12px;
@@ -130,6 +141,11 @@ st.markdown("""
             font-size: 0.82rem;
             line-height: 1.4;
             font-weight: 400;
+        }
+        
+        .card-bold {
+            font-weight: 700;
+            color: #0c326f;
         }
 
         .stRadio > div {
@@ -151,7 +167,9 @@ st.markdown("""
             background-color: #0C326F !important;
         }
     </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # ==========================================
 # MAPEAMENTO DE PROGRAMAS
@@ -168,7 +186,10 @@ PROGRAMAS_INFO = {
     "0009": {"nome": "CULTURA", "icone": "🎭"},
     "0010": {"nome": "ESPORTE, JUVENTUDE E LAZER", "icone": "⚽"},
     "0011": {"nome": "DESENVOLVIMENTO URBANO", "icone": "🏙️"},
-    "0012": {"nome": "MEIO AMBIENTE, PAISAGISMO E BEM-ESTAR ANIMAL", "icone": "🌿"},
+    "0012": {
+        "nome": "MEIO AMBIENTE, PAISAGISMO E BEM-ESTAR ANIMAL",
+        "icone": "🌿",
+    },
     "0013": {"nome": "FOMENTO AGROPECUÁRIO E ABASTECIMENTO", "icone": "🌾"},
     "0014": {"nome": "OBRAS E SERVIÇOS URBANOS", "icone": "🏗️"},
     "0015": {"nome": "SEGURANÇA PÚBLICA E TRÂNSITO", "icone": "🚨"},
@@ -177,38 +198,57 @@ PROGRAMAS_INFO = {
     "0018": {"nome": "ÁGUA SOLIDÁRIA", "icone": "💧"},
     "0019": {"nome": "PARANAVAÍ MAIS HABITAÇÃO", "icone": "🏠"},
     "0020": {"nome": "CONSTRUSOCIAL", "icone": "🧱"},
-    "0021": {"nome": "PROGRAMA DE INCENTIVO AO ESPORTE AMADOR DE PARANAVAÍ", "icone": "🏅"},
+    "0021": {
+        "nome": "PROGRAMA DE INCENTIVO AO ESPORTE AMADOR DE PARANAVAÍ",
+        "icone": "🏅",
+    },
     "0022": {"nome": "PROGRAMA FUNDO ROTATIVO", "icone": "🔄"},
-    "0023": {"nome": "PROGRAMA DE PACIFICAÇÃO RESTAURATIVA DE PARANAVAÍ", "icone": "🕊️"},
-    "9999": {"nome": "RESERVA DE CONTINGÊNCIA", "icone": "🔒"}
+    "0023": {
+        "nome": "PROGRAMA DE PACIFICAÇÃO RESTAURATIVA DE PARANAVAÍ",
+        "icone": "🕊️",
+    },
+    "9999": {"nome": "RESERVA DE CONTINGÊNCIA", "icone": "🔒"},
 }
 
 # ==========================================
 # CARREGAMENTO DE DADOS ROBUSTO
 # ==========================================
+
+
 @st.cache_data
 def load_data():
     possible_paths = [
-        'IEGM - Acoes e Metas Programas e Indicadores (2).csv',
-        os.path.join(os.path.dirname(__file__), 'IEGM - Acoes e Metas Programas e Indicadores (2).csv'),
-        os.path.join(os.path.dirname(__file__), '..', 'IEGM - Acoes e Metas Programas e Indicadores (2).csv'),
-        './IEGM - Acoes e Metas Programas e Indicadores (2).csv'
+        "IEGM - Acoes e Metas Programas e Indicadores (2).csv",
+        os.path.join(
+            os.path.dirname(__file__),
+            "IEGM - Acoes e Metas Programas e Indicadores (2).csv",
+        ),
+        os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "IEGM - Acoes e Metas Programas e Indicadores (2).csv",
+        ),
+        "./IEGM - Acoes e Metas Programas e Indicadores (2).csv",
     ]
-    
+
     filepath = None
     for path in possible_paths:
         if os.path.exists(path):
             filepath = path
             break
-            
+
     if not filepath:
-        st.error("❌ Arquivo CSV não encontrado. Verifique se 'IEGM - Acoes e Metas Programas e Indicadores (2).csv' está presente no repositório.")
+        st.error(
+            "❌ Arquivo CSV não encontrado. Verifique se 'IEGM - Acoes e Metas"
+            " Programas e Indicadores (2).csv' está presente no repositório."
+        )
         st.stop()
-        
-    df_loaded = pd.read_csv(filepath, encoding='latin1', sep=',', header=5)
-    df_loaded = df_loaded.loc[:, ~df_loaded.columns.str.contains('^Unnamed')]
-    df_loaded.columns = df_loaded.columns.str.replace('"', '').str.strip()
+
+    df_loaded = pd.read_csv(filepath, encoding="latin1", sep=",", header=5)
+    df_loaded = df_loaded.loc[:, ~df_loaded.columns.str.contains("^Unnamed")]
+    df_loaded.columns = df_loaded.columns.str.replace('"', "").str.strip()
     return df_loaded
+
 
 df = load_data()
 
@@ -218,19 +258,22 @@ df = load_data()
 st.title("Programas e Ações de Governo")
 st.caption("Monitoramento Estratégico de Metas Físicas e Financeiras")
 
-st.markdown("""
+st.markdown(
+    """
     <div style="background-color: #f8f9fa; border: 1px solid #d7d7d7; border-top: 4px solid #004587; border-radius: 4px; padding: 16px; margin-bottom: 20px;">
         <div style="font-weight: 700; color: #0c326f; font-size: 1rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">
             <span>🎛️</span> Painel de Navegação por Visão Estratégica
         </div>
     </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 tab_choice = st.radio(
-    "Selecione a Visão:", 
+    "Selecione a Visão:",
     ["Visão Geral", "Análise por Programas", "Análise por Ações"],
     horizontal=True,
-    label_visibility="collapsed"
+    label_visibility="collapsed",
 )
 
 st.markdown("---")
@@ -238,130 +281,221 @@ st.markdown("---")
 # ==========================================
 # VALIDAÇÃO E TRATAMENTO DOS DADOS
 # ==========================================
-if 'Código Programa' not in df.columns:
-    st.error(f"Erro crítico: A coluna 'Código Programa' não foi encontrada nas colunas disponíveis: {list(df.columns)}")
+if "Código Programa" not in df.columns:
+    st.error(
+        f"Erro crítico: A coluna 'Código Programa' não foi encontrada nas"
+        f" colunas disponíveis: {list(df.columns)}"
+    )
     st.stop()
 
-base_df = df.dropna(subset=['Código Programa']).copy()
-base_df = base_df[~base_df['Código Programa'].astype(str).str.replace('"', '').str.strip().isin(['Código Programa', 'Programas e indicadores'])]
+base_df = df.dropna(subset=["Código Programa"]).copy()
+base_df = base_df[
+    ~base_df["Código Programa"]
+    .astype(str)
+    .str.replace('"', "")
+    .str.strip()
+    .isin(["Código Programa", "Programas e indicadores"])
+]
 
-if 'Código da Ação' in base_df.columns:
-    base_df['Código da Ação Limpo'] = base_df['Código da Ação'].astype(str).str.replace('"', '').str.strip()
-    actions_df = base_df[base_df['Código da Ação Limpo'].str.isnumeric()].copy()
+if "Código da Ação" in base_df.columns:
+    base_df["Código da Ação Limpo"] = (
+        base_df["Código da Ação"].astype(str).str.replace('"', "").str.strip()
+    )
+    actions_df = base_df[
+        base_df["Código da Ação Limpo"].str.isnumeric()
+    ].copy()
 else:
     actions_df = base_df.copy()
 
-for col in ['Meta Física Estimada', 'Meta Física Alcançada', 'Dotação Final', 'Valor Liquidado']:
+for col in [
+    "Meta Física Estimada",
+    "Meta Física Alcançada",
+    "Dotação Final",
+    "Valor Liquidado",
+]:
     if col in actions_df.columns:
-        actions_df[col] = actions_df[col].astype(str).str.replace('.', '', regex=False).str.replace(',', '.', regex=False)
-        actions_df[col] = pd.to_numeric(actions_df[col], errors='coerce').fillna(0.0)
+        actions_df[col] = (
+            actions_df[col]
+            .astype(str)
+            .str.replace(".", "", regex=False)
+            .str.replace(",", ".", regex=False)
+        )
+        actions_df[col] = pd.to_numeric(actions_df[col], errors="coerce").fillna(
+            0.0
+        )
 
-if 'Dotação Final' in actions_df.columns and 'Valor Liquidado' in actions_df.columns:
-    actions_df['% Exec. Financeira'] = np.where(
-        actions_df['Dotação Final'] > 0, 
-        (actions_df['Valor Liquidado'] / actions_df['Dotação Final']) * 100, 
-        0.0
+if (
+    "Dotação Final" in actions_df.columns
+    and "Valor Liquidado" in actions_df.columns
+):
+    actions_df["% Exec. Financeira"] = np.where(
+        actions_df["Dotação Final"] > 0,
+        (actions_df["Valor Liquidado"] / actions_df["Dotação Final"]) * 100,
+        0.0,
     )
-if 'Meta Física Estimada' in actions_df.columns and 'Meta Física Alcançada' in actions_df.columns:
-    actions_df['% Exec. Física'] = np.where(
-        actions_df['Meta Física Estimada'] > 0, 
-        (actions_df['Meta Física Alcançada'] / actions_df['Meta Física Estimada']) * 100, 
-        0.0
+if (
+    "Meta Física Estimada" in actions_df.columns
+    and "Meta Física Alcançada" in actions_df.columns
+):
+    actions_df["% Exec. Física"] = np.where(
+        actions_df["Meta Física Estimada"] > 0,
+        (
+            actions_df["Meta Física Alcançada"]
+            / actions_df["Meta Física Estimada"]
+        )
+        * 100,
+        0.0,
     )
+
 
 def formatar_programa(codigo):
-    c_str = str(codigo).replace('"', '').strip().zfill(4)
-    info = PROGRAMAS_INFO.get(c_str, {"nome": "OUTROS PROGRAMAS", "icone": "📁"})
+    c_str = str(codigo).replace('"', "").strip().zfill(4)
+    info = PROGRAMAS_INFO.get(
+        c_str, {"nome": "OUTROS PROGRAMAS", "icone": "📁"}
+    )
     return f"{info['icone']} {c_str} - {info['nome']}"
 
-actions_df['Programa Formatado'] = actions_df['Código Programa'].apply(formatar_programa)
+
+actions_df["Programa Formatado"] = actions_df["Código Programa"].apply(
+    formatar_programa
+)
+
+# Helper para formatação de moeda em padrão BRL
+def formatar_brl(valor):
+    return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+
+# Helper para formatação amigável em Milhões
+def formatar_milhoes(valor):
+    if valor >= 1_000_000:
+        return (
+            f"R$ {valor / 1_000_000:,.1f} Milhões".replace(".", ",")
+            .replace("Milhões", "milhões")
+        )
+    return formatar_brl(valor)
+
+
+# SVGs Institucionais para os Cards
+icon_chart = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>'
+icon_coin = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-6h6m6 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'
+icon_box = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>'
+icon_check = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'
 
 # ==========================================
 # ABA 1: VISÃO GERAL
 # ==========================================
 if tab_choice == "Visão Geral":
     st.subheader("Visão Geral Executiva — Programas")
-    st.markdown("Acompanhamento consolidado e comparativo por programa de governo.")
-    
-    prog_summary = actions_df.groupby(['Código Programa', 'Programa Formatado']).agg({
-        'Dotação Final': 'sum',
-        'Valor Liquidado': 'sum',
-        'Meta Física Estimada': 'sum',
-        'Meta Física Alcançada': 'sum',
-        'Código da Ação': 'count'
-    }).reset_index()
-
-    prog_summary['% Financeira'] = np.where(
-        prog_summary['Dotação Final'] > 0, 
-        (prog_summary['Valor Liquidado'] / prog_summary['Dotação Final']) * 100, 
-        0.0
-    )
-    prog_summary['% Física'] = np.where(
-        prog_summary['Meta Física Estimada'] > 0, 
-        (prog_summary['Meta Física Alcançada'] / prog_summary['Meta Física Estimada']) * 100, 
-        0.0
+    st.markdown(
+        "Acompanhamento consolidado e comparativo por programa de governo."
     )
 
-    total_dotacao = actions_df['Dotação Final'].sum()
-    total_liquidado = actions_df['Valor Liquidado'].sum()
-    execucao_financeira = (total_liquidado / total_dotacao * 100) if total_dotacao > 0 else 0
-    
-    # Cards de KPI com o Design System exato
+    prog_summary = (
+        actions_df.groupby(["Código Programa", "Programa Formatado"])
+        .agg({
+            "Dotação Final": "sum",
+            "Valor Liquidado": "sum",
+            "Meta Física Estimada": "sum",
+            "Meta Física Alcançada": "sum",
+            "Código da Ação": "count",
+        })
+        .reset_index()
+    )
+
+    prog_summary["% Financeira"] = np.where(
+        prog_summary["Dotação Final"] > 0,
+        (prog_summary["Valor Liquidado"] / prog_summary["Dotação Final"]) * 100,
+        0.0,
+    )
+    prog_summary["% Física"] = np.where(
+        prog_summary["Meta Física Estimada"] > 0,
+        (
+            prog_summary["Meta Física Alcançada"]
+            / prog_summary["Meta Física Estimada"]
+        )
+        * 100,
+        0.0,
+    )
+
+    total_dotacao = actions_df["Dotação Final"].sum()
+    total_liquidado = actions_df["Valor Liquidado"].sum()
+    execucao_financeira = (
+        (total_liquidado / total_dotacao * 100) if total_dotacao > 0 else 0
+    )
+
+    # Cards de KPI com o Design System exato unificado
     col1, col2, col3, col4 = st.columns(4)
-    
+
     with col1:
-        st.markdown(f"""
+        st.markdown(
+            f"""
             <div class="unified-card">
+                <div class="card-icon-wrapper">{icon_coin}</div>
                 <div class="card-kpi-title">Dotação Final Total</div>
-                <div class="card-kpi-value">R$ {total_dotacao:,.2f}</div>
+                <div class="card-kpi-value">{formatar_milhoes(total_dotacao)}</div>
                 <div class="card-divider"></div>
                 <div class="card-explanation">Montante global autorizado para o exercício.</div>
             </div>
-        """, unsafe_allow_html=True)
-        
+        """,
+            unsafe_allow_html=True,
+        )
+
     with col2:
-        st.markdown(f"""
+        st.markdown(
+            f"""
             <div class="unified-card">
+                <div class="card-icon-wrapper">{icon_chart}</div>
                 <div class="card-kpi-title">Valor Liquidado Total</div>
-                <div class="card-kpi-value">R$ {total_liquidado:,.2f}</div>
+                <div class="card-kpi-value">{formatar_milhoes(total_liquidado)}</div>
                 <div class="card-divider"></div>
                 <div class="card-explanation">Total de despesas efetivamente liquidadas.</div>
             </div>
-        """, unsafe_allow_html=True)
-        
+        """,
+            unsafe_allow_html=True,
+        )
+
     with col3:
-        st.markdown(f"""
+        st.markdown(
+            f"""
             <div class="unified-card">
+                <div class="card-icon-wrapper">{icon_check}</div>
                 <div class="card-kpi-title">Taxa Média Execução</div>
                 <div class="card-kpi-value">{execucao_financeira:.2f}%</div>
                 <div class="card-divider"></div>
                 <div class="card-explanation">Percentual geral executado sobre a dotação.</div>
             </div>
-        """, unsafe_allow_html=True)
-        
+        """,
+            unsafe_allow_html=True,
+        )
+
     with col4:
-        st.markdown(f"""
+        st.markdown(
+            f"""
             <div class="unified-card">
+                <div class="card-icon-wrapper">{icon_box}</div>
                 <div class="card-kpi-title">Total de Ações</div>
                 <div class="card-kpi-value">{len(actions_df)}</div>
                 <div class="card-divider"></div>
                 <div class="card-explanation">Número de ações numéricas ativadas.</div>
             </div>
-        """, unsafe_allow_html=True)
-    
+        """,
+            unsafe_allow_html=True,
+        )
+
     st.markdown("<br>", unsafe_allow_html=True)
     st.subheader("Detalhamento por Programa")
 
-    programas_lista = prog_summary.to_dict('records')
+    programas_lista = prog_summary.to_dict("records")
     for i in range(0, len(programas_lista), 4):
         cols = st.columns(4)
         for j in range(4):
             if i + j < len(programas_lista):
                 p_item = programas_lista[i + j]
-                p_label = p_item['Programa Formatado']
-                
+                p_label = p_item["Programa Formatado"]
+
                 with cols[j]:
-                    st.markdown(f"""
+                    st.markdown(
+                        f"""
                         <div class="unified-card">
                             <div class="card-kpi-title" style="font-size:0.7rem;">{p_label}</div>
                             <div class="card-kpi-value" style="font-size:1.1rem;">Exec. Fin: {p_item['% Financeira']:.1f}%</div>
@@ -369,15 +503,31 @@ if tab_choice == "Visão Geral":
                             <div class="card-divider"></div>
                             <div class="card-explanation">Exec. Física: <b>{p_item['% Física']:.1f}%</b></div>
                         </div>
-                    """, unsafe_allow_html=True)
+                    """,
+                        unsafe_allow_html=True,
+                    )
 
     st.markdown("---")
 
-    fig = pdx.bar(prog_summary, x='Programa Formatado', y=['Dotação Final', 'Valor Liquidado'], 
-                   barmode='group', title="Dotação vs. Valor Liquidado por Programa",
-                   labels={'value': 'Valor (R$)', 'Programa Formatado': 'Programa', 'variable': 'Métrica'},
-                   color_discrete_sequence=['#1351B4', '#168821'])
-    fig.update_layout(xaxis_tickangle=-45, plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font_family="Rawline, Inter")
+    fig = pdx.bar(
+        prog_summary,
+        x="Programa Formatado",
+        y=["Dotação Final", "Valor Liquidado"],
+        barmode="group",
+        title="Dotação vs. Valor Liquidado por Programa",
+        labels={
+            "value": "Valor (R$)",
+            "Programa Formatado": "Programa",
+            "variable": "Métrica",
+        },
+        color_discrete_sequence=["#1351B4", "#168821"],
+    )
+    fig.update_layout(
+        xaxis_tickangle=-45,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        font_family="Rawline, Inter",
+    )
     st.plotly_chart(fig, use_container_width=True)
 
 # ==========================================
@@ -385,62 +535,144 @@ if tab_choice == "Visão Geral":
 # ==========================================
 elif tab_choice == "Análise por Programas":
     st.subheader("Desempenho por Programas (Metas Físicas e Financeiras)")
-    
-    valid_programas = sorted(actions_df['Código Programa'].dropna().unique())
+
+    valid_programas = sorted(actions_df["Código Programa"].dropna().unique())
     prog_options = {p: formatar_programa(p) for p in valid_programas}
-    
-    prog_selected_key = st.selectbox("Selecione o Programa:", options=list(prog_options.keys()), format_func=lambda x: prog_options[x])
-    sub_df = actions_df[actions_df['Código Programa'] == prog_selected_key]
-    
-    p_dotacao = sub_df['Dotação Final'].sum()
-    p_liquidado = sub_df['Valor Liquidado'].sum()
-    
-    c1, c2, c3 = st.columns(3)
-    c1.metric("Dotação do Programa", f"R$ {p_dotacao:,.2f}")
-    c2.metric("Liquidado do Programa", f"R$ {p_liquidado:,.2f}")
-    c3.metric("Ações Vinculadas", len(sub_df))
-    
-    st.dataframe(sub_df[['Código da Ação', 'Descrição', 'Descrição da Meta', 'Unidade Medida', 'Meta Física Estimada', 'Meta Física Alcançada', '% Exec. Física', 'Dotação Final', 'Valor Liquidado', '% Exec. Financeira']], use_container_width=True)
-    
-    fig_prog = pdx.bar(sub_df, x='Código da Ação', y=['Meta Física Estimada', 'Meta Física Alcançada'],
-                        barmode='group', title=f"Metas Físicas (Estimada vs Alcançada) - {prog_options[prog_selected_key]}",
-                        color_discrete_sequence=['#1351B4', '#FFCD07'])
-    fig_prog.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font_family="Rawline, Inter",
-        bargap=0.1, bargroupgap=0.1)
+
+    prog_selected_key = st.selectbox(
+        "Selecione o Programa:",
+        options=list(prog_options.keys()),
+        format_func=lambda x: prog_options[x],
+    )
+    sub_df = actions_df[actions_df["Código Programa"] == prog_selected_key]
+
+    p_dotacao = sub_df["Dotação Final"].sum()
+    p_liquidado = sub_df["Valor Liquidado"].sum()
+
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Dotação do Programa", formatar_brl(p_dotacao))
+    col2.metric("Liquidado do Programa", formatar_brl(p_liquidado))
+    col3.metric("Ações Vinculadas", len(sub_df))
+
+    st.dataframe(
+        sub_df[[
+            "Código da Ação",
+            "Descrição",
+            "Descrição da Meta",
+            "Unidade Medida",
+            "Meta Física Estimada",
+            "Meta Física Alcançada",
+            "% Exec. Física",
+            "Dotação Final",
+            "Valor Liquidado",
+            "% Exec. Financeira",
+        ]],
+        use_container_width=True,
+    )
+
+    fig_prog = pdx.bar(
+        sub_df,
+        x="Código da Ação",
+        y=["Meta Física Estimada", "Meta Física Alcançada"],
+        barmode="group",
+        title=(
+            "Metas Físicas (Estimada vs Alcançada) -"
+            f" {prog_options[prog_selected_key]}"
+        ),
+        color_discrete_sequence=["#1351B4", "#FFCD07"],
+    )
+    fig_prog.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        font_family="Rawline, Inter",
+        bargap=0.1,
+        bargroupgap=0.1,
+    )
     st.plotly_chart(fig_prog, use_container_width=True)
-    
+
 
 # ==========================================
 # ABA 3: ANÁLISE POR AÇÕES
 # ==========================================
 elif tab_choice == "Análise por Ações":
     st.subheader("Análise Detalhada de Ações")
-    
+
     search_term = st.text_input("Buscar Ação por Código da Ação:")
-    filtered_actions = actions_df[actions_df['Código da Ação Limpo'].str.contains(search_term, case=False, na=False)] if search_term else actions_df
-    
-    st.dataframe(filtered_actions[['Programa Formatado', 'Código da Ação', 'Descrição', 'Dotação Final', 'Valor Liquidado', '% Exec. Financeira', 'Meta Física Estimada', 'Meta Física Alcançada', '% Exec. Física']], use_container_width=True)
-    
+    filtered_actions = (
+        actions_df[
+            actions_df["Código da Ação Limpo"].str.contains(
+                search_term, case=False, na=False
+            )
+        ]
+        if search_term
+        else actions_df
+    )
+
+    st.dataframe(
+        filtered_actions[[
+            "Programa Formatado",
+            "Código da Ação",
+            "Descrição",
+            "Dotação Final",
+            "Valor Liquidado",
+            "% Exec. Financeira",
+            "Meta Física Estimada",
+            "Meta Física Alcançada",
+            "% Exec. Física",
+        ]],
+        use_container_width=True,
+    )
+
     if not filtered_actions.empty:
-        filtered_actions['Opcao_Select'] = filtered_actions['Código da Ação Limpo'] + " - " + filtered_actions['Descrição']
-        selected_option = st.selectbox("Selecione uma ação para detalhar:", filtered_actions['Opcao_Select'].unique())
-        
-        act_row = filtered_actions[filtered_actions['Opcao_Select'] == selected_option].iloc[0]
-        
-        st.info(f"**Ação:** {act_row['Código da Ação Limpo']} - {act_row['Descrição']} | **Programa:** {act_row['Programa Formatado']}")
+        filtered_actions["Opcao_Select"] = (
+            filtered_actions["Código da Ação Limpo"]
+            + " - "
+            + filtered_actions["Descrição"]
+        )
+        selected_option = st.selectbox(
+            "Selecione uma ação para detalhar:",
+            filtered_actions["Opcao_Select"].unique(),
+        )
+
+        act_row = filtered_actions[
+            filtered_actions["Opcao_Select"] == selected_option
+        ].iloc[0]
+
+        st.info(
+            f"**Ação:** {act_row['Código da Ação Limpo']} -"
+            f" {act_row['Descrição']} | **Programa:**"
+            f" {act_row['Programa Formatado']}"
+        )
         col_a, col_b = st.columns(2)
         with col_a:
-            st.metric("Meta Física Estimada", f"{act_row['Meta Física Estimada']} {act_row['Unidade Medida']}")
-            st.metric("Meta Física Alcançada", f"{act_row['Meta Física Alcançada']} {act_row['Unidade Medida']}")
-            st.metric("Execução Física (%)", f"{act_row['% Exec. Física']:.2f}%")
+            st.metric(
+                "Meta Física Estimada",
+                f"{act_row['Meta Física Estimada']} {act_row['Unidade Medida']}",
+            )
+            st.metric(
+                "Meta Física Alcançada",
+                f"{act_row['Meta Física Alcançada']} {act_row['Unidade Medida']}",
+            )
+            st.metric(
+                "Execução Física (%)", f"{act_row['% Exec. Física']:.2f}%"
+            )
         with col_b:
-            st.metric("Dotação Final", f"R$ {act_row['Dotação Final']:,.2f}")
-            st.metric("Valor Liquidado", f"R$ {act_row['Valor Liquidado']:,.2f}")
-            st.metric("Execução Financeira (%)", f"{act_row['% Exec. Financeira']:.2f}%")
+            st.metric("Dotação Final", formatar_brl(act_row["Dotação Final"]))
+            st.metric(
+                "Valor Liquidado", formatar_brl(act_row["Valor Liquidado"])
+            )
+            st.metric(
+                "Execução Financeira (%)",
+                f"{act_row['% Exec. Financeira']:.2f}%",
+            )
+
 # ==========================================
 # RODAPÉ DA PÁGINA PRINCIPAL (FINAL DO SCRIPT)
 # ==========================================
 st.markdown("---")
 col_esq, col_centro, col_dir = st.columns([2, 1, 2])
 with col_centro:
-    st.image("logo.png", use_container_width=True)
+    if os.path.exists(logo_path):
+        st.image(logo_path, use_container_width=True)
+    else:
+        st.image("logo.png", use_container_width=True)
