@@ -29,9 +29,9 @@ st.markdown(
         }
 
         h1 {
-            font-weight: 700 !important;
+            font-weight: 10000 !important;
             color: #0c326f !important;
-            font-size: 2rem !important;
+            font-size: 5rem !important;
             border-bottom: 2px solid #004587;
             padding-bottom: 8px;
         }
