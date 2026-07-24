@@ -7,28 +7,21 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Caminho apontando corretamente para a pasta pages onde o logo.png está alocado
+# Caminho apontando corretamente para a pasta pages
 logo_path = os.path.join(os.path.dirname(__file__), "pages", "logo.png")
-
-# Se preferir carregar direto do GitHub (Raw), você também pode usar:
-# logo_path = "https://raw.githubusercontent.com/rodrigopozza/govanalytics/main/pages/logo.png"
 
 # ==========================================
 # CONFIGURAÇÃO DA BARRA LATERAL (TOPO)
 # ==========================================
 with st.sidebar:
-    # 1. Logo no topo absoluto da barra lateral
+    # Exibe a logo apenas uma vez (com fallback para a URL do GitHub se necessário)
     if os.path.exists(logo_path):
         st.image(logo_path, use_container_width=True)
     else:
-        # Fallback caso use a URL do GitHub ou queira garantir a exibição
-        try:
-            st.image(logo_path, use_container_width=True)
-        except Exception:
-            st.image(
-                "https://raw.githubusercontent.com/rodrigopozza/govanalytics/main/pages/logo.png",
-                use_container_width=True,
-            )
+        st.image(
+            "https://raw.githubusercontent.com/rodrigopozza/govanalytics/main/pages/logo.png",
+            use_container_width=True,
+        )
 
     st.markdown("---")
 
