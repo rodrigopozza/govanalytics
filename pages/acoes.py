@@ -4,53 +4,139 @@ import pandas as pd
 import plotly.express as pdx
 import numpy as np
 
+# ==========================================
+# CONFIGURAÇÃO DA PÁGINA
+# ==========================================
 st.set_page_config(
     page_title="Dashboard de Metas - Programas e Ações",
     page_icon="🇧🇷",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-# Estilização inspirada no Design System do GOV.BR
+# ==========================================
+# ESTILIZAÇÃO CSS GLOBAL - DESIGN SYSTEM GOV.BR
+# ==========================================
 st.markdown("""
     <style>
-        .stApp {
-            background-color: #F8F9FA;
+        @import url('https://fonts.googleapis.com/css2?family=Rawline:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        html, body, [class*="css"], [class*="st-"] {
+            font-family: 'Rawline', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            color: #141414;
         }
-        h1 {
-            color: #0C326F !important;
-            font-family: 'Rawline', sans-serif, Arial;
-            border-left: 6px solid #1351B4;
-            padding-left: 12px;
+
+        /* Barra superior institucional simulando a barra do Governo */
+        header::before {
+            content: "GovAnalytics — Monitoramento de Metas";
+            display: block;
+            background-color: #004587;
+            color: #ffffff;
+            font-size: 0.75rem;
             font-weight: 700;
+            padding: 4px 16px;
+            letter-spacing: 0.05em;
         }
-        h2, h3 {
-            color: #1351B4 !important;
-            font-family: 'Rawline', sans-serif, Arial;
+
+        /* Alinhamento à esquerda padrão do GOV.BR */
+        h1, h2, h3, .stMarkdown p {
+            text-align: left;
         }
-        [data-testid="stVerticalBlock"] div[data-testid="stContainer"] {
-            background-color: #FFFFFF !important;
-            border: 1px solid #D7D7D7 !important;
-            border-top: 4px solid #1351B4 !important;
-            padding: 12px 16px !important;
-            border-radius: 4px !important;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        [data-testid="metric-container"] {
-            background-color: transparent !important;
-            padding: 2px 0px !important;
-        }
-        div.stMarkdown h4 {
-            color: #0C326F !important;
-            font-size: 0.95rem !important;
+
+        h1 {
             font-weight: 700 !important;
-            margin-bottom: 6px !important;
+            color: #0c326f !important;
+            font-size: 2rem !important;
+            border-bottom: 2px solid #004587;
+            padding-bottom: 8px;
         }
+
+        h2 {
+            font-weight: 600 !important;
+            color: #1351b4 !important;
+            margin-top: 1.5rem !important;
+        }
+
+        h3 {
+            font-weight: 600 !important;
+            color: #2670e8 !important;
+        }
+
+        /* CARDS NO ESTILO GOV.BR (Borda lateral azul institucional) */
+        .unified-card {
+            background-color: #ffffff;
+            border: 1px solid #d7d7d7;
+            border-left: 4px solid #1351b4;
+            border-radius: 4px;
+            padding: 20px 16px;
+            text-align: left;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .unified-card:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+            border-color: #1351b4;
+        }
+        
+        .card-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            background-color: #e5f1f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        
+        .card-kpi-title {
+            color: #454545;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+        
+        .card-kpi-value {
+            color: #0c326f;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .card-kpi-delta {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background-color: #d7d7d7;
+            margin-bottom: 12px;
+        }
+
+        .card-explanation {
+            color: #333333;
+            font-size: 0.82rem;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
         .stRadio > div {
             background-color: #FFFFFF;
             padding: 10px;
             border-radius: 4px;
             border: 1px solid #D7D7D7;
         }
+
         .stButton button {
             background-color: #1351B4 !important;
             color: #FFFFFF !important;
@@ -58,13 +144,16 @@ st.markdown("""
             border-radius: 4px !important;
             border: none !important;
         }
+
         .stButton button:hover {
             background-color: #0C326F !important;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# Mapeamento oficial de Nomes e Ícones por Código de Programa
+# ==========================================
+# MAPEAMENTO DE PROGRAMAS
+# ==========================================
 PROGRAMAS_INFO = {
     "0000": {"nome": "ENCARGOS ESPECIAIS", "icone": "⚖️"},
     "0001": {"nome": "PROCESSO LEGISLATIVO", "icone": "🏛️"},
@@ -92,6 +181,9 @@ PROGRAMAS_INFO = {
     "9999": {"nome": "RESERVA DE CONTINGÊNCIA", "icone": "🔒"}
 }
 
+# ==========================================
+# CARREGAMENTO DE DADOS ROBUSTO
+# ==========================================
 @st.cache_data
 def load_data():
     possible_paths = [
@@ -108,7 +200,7 @@ def load_data():
             break
             
     if not filepath:
-        st.error("❌ Arquivo CSV não encontrado. Verifique se 'IEGM - Acoes e Metas Programas e Indicadores (2).csv' está no repositório do GitHub.")
+        st.error("❌ Arquivo CSV não encontrado. Verifique se 'IEGM - Acoes e Metas Programas e Indicadores (2).csv' está presente no repositório.")
         st.stop()
         
     df_loaded = pd.read_csv(filepath, encoding='latin1', sep=',', header=5)
@@ -116,29 +208,38 @@ def load_data():
     df_loaded.columns = df_loaded.columns.str.replace('"', '').str.strip()
     return df_loaded
 
-# Chamada garantida da base de dados logo após a definição
 df = load_data()
 
-st.title("Programs e Ações de Governo")
-st.markdown("Monitoramento Estratégico de Metas Físicas e Financeiras")
+# ==========================================
+# CABEÇALHO DO PAINEL
+# ==========================================
+st.title("Monitoramento Estratégico de Metas Físicas e Financeiras")
+st.caption("Hierarquia: Programas >> Ações. Acompanhamento de execução orçamentária e metas governamentais.")
 
-st.markdown("---")
+st.markdown("""
+    <div style="background-color: #f8f9fa; border: 1px solid #d7d7d7; border-top: 4px solid #004587; border-radius: 4px; padding: 16px; margin-bottom: 20px;">
+        <div style="font-weight: 700; color: #0c326f; font-size: 1rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">
+            <span>🎛️</span> Painel de Navegação por Visão Estratégica
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
-st.markdown("### 🎛️ Filtros de Navegação")
 tab_choice = st.radio(
     "Selecione a Visão:", 
     ["Visão Geral", "Análise por Programas", "Análise por Ações"],
-    horizontal=True
+    horizontal=True,
+    label_visibility="collapsed"
 )
 
 st.markdown("---")
 
-# Validação defensiva do DataFrame
+# ==========================================
+# VALIDAÇÃO E TRATAMENTO DOS DADOS
+# ==========================================
 if 'Código Programa' not in df.columns:
     st.error(f"Erro crítico: A coluna 'Código Programa' não foi encontrada nas colunas disponíveis: {list(df.columns)}")
     st.stop()
 
-# Limpeza e filtragem da base de dados
 base_df = df.dropna(subset=['Código Programa']).copy()
 base_df = base_df[~base_df['Código Programa'].astype(str).str.replace('"', '').str.strip().isin(['Código Programa', 'Programas e indicadores'])]
 
@@ -153,7 +254,6 @@ for col in ['Meta Física Estimada', 'Meta Física Alcançada', 'Dotação Final
         actions_df[col] = actions_df[col].astype(str).str.replace('.', '', regex=False).str.replace(',', '.', regex=False)
         actions_df[col] = pd.to_numeric(actions_df[col], errors='coerce').fillna(0.0)
 
-# Cálculos de Percentual de Execução por Ação
 if 'Dotação Final' in actions_df.columns and 'Valor Liquidado' in actions_df.columns:
     actions_df['% Exec. Financeira'] = np.where(
         actions_df['Dotação Final'] > 0, 
@@ -167,7 +267,6 @@ if 'Meta Física Estimada' in actions_df.columns and 'Meta Física Alcançada' i
         0.0
     )
 
-# Função auxiliar para formatar o nome do programa com o código e ícone
 def formatar_programa(codigo):
     c_str = str(codigo).replace('"', '').strip().zfill(4)
     info = PROGRAMAS_INFO.get(c_str, {"nome": "OUTROS PROGRAMAS", "icone": "📁"})
@@ -175,9 +274,12 @@ def formatar_programa(codigo):
 
 actions_df['Programa Formatado'] = actions_df['Código Programa'].apply(formatar_programa)
 
+# ==========================================
+# ABA 1: VISÃO GERAL
+# ==========================================
 if tab_choice == "Visão Geral":
     st.subheader("Visão Geral Executiva — Programas")
-    st.markdown("Acompanhamento consolidado por programa de governo.")
+    st.markdown("Acompanhamento consolidado e comparativo por programa de governo.")
     
     prog_summary = actions_df.groupby(['Código Programa', 'Programa Formatado']).agg({
         'Dotação Final': 'sum',
@@ -202,13 +304,51 @@ if tab_choice == "Visão Geral":
     total_liquidado = actions_df['Valor Liquidado'].sum()
     execucao_financeira = (total_liquidado / total_dotacao * 100) if total_dotacao > 0 else 0
     
+    # Cards de KPI com o Design System exato
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Dotação Final Total", f"R$ {total_dotacao:,.2f}")
-    col2.metric("Valor Liquidado Total", f"R$ {total_liquidado:,.2f}")
-    col3.metric("Taxa Média de Execução", f"{execucao_financeira:.2f}%")
-    col4.metric("Total de Ações Numéricas", f"{len(actions_df)}")
     
-    st.markdown("---")
+    with col1:
+        st.markdown(f"""
+            <div class="unified-card">
+                <div class="card-kpi-title">Dotação Final Total</div>
+                <div class="card-kpi-value">R$ {total_dotacao:,.2f}</div>
+                <div class="card-divider"></div>
+                <div class="card-explanation">Montante global autorizado para o exercício.</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+    with col2:
+        st.markdown(f"""
+            <div class="unified-card">
+                <div class="card-kpi-title">Valor Liquidado Total</div>
+                <div class="card-kpi-value">R$ {total_liquidado:,.2f}</div>
+                <div class="card-divider"></div>
+                <div class="card-explanation">Total de despesas efetivamente liquidadas.</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+    with col3:
+        st.markdown(f"""
+            <div class="unified-card">
+                <div class="card-kpi-title">Taxa Média Execução</div>
+                <div class="card-kpi-value">{execucao_financeira:.2f}%</div>
+                <div class="card-divider"></div>
+                <div class="card-explanation">Percentual geral executado sobre a dotação.</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+    with col4:
+        st.markdown(f"""
+            <div class="unified-card">
+                <div class="card-kpi-title">Total de Ações</div>
+                <div class="card-kpi-value">{len(actions_df)}</div>
+                <div class="card-divider"></div>
+                <div class="card-explanation">Número de ações numéricas ativadas.</div>
+            </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.subheader("Detalhamento por Programa")
 
     programas_lista = prog_summary.to_dict('records')
     for i in range(0, len(programas_lista), 4):
@@ -219,11 +359,15 @@ if tab_choice == "Visão Geral":
                 p_label = p_item['Programa Formatado']
                 
                 with cols[j]:
-                    with st.container(border=True):
-                        st.markdown(f"#### {p_label}")
-                        st.metric("Exec. Financeira", f"{p_item['% Financeira']:.2f}%")
-                        st.metric("Exec. Física", f"{p_item['% Física']:.2f}%")
-                        st.metric("Nº de Ações", int(p_item['Código da Ação']))
+                    st.markdown(f"""
+                        <div class="unified-card">
+                            <div class="card-kpi-title" style="font-size:0.7rem;">{p_label}</div>
+                            <div class="card-kpi-value" style="font-size:1.1rem;">Exec. Fin: {p_item['% Financeira']:.1f}%</div>
+                            <div class="card-kpi-delta">Ações Vinculadas: {int(p_item['Código da Ação'])}</div>
+                            <div class="card-divider"></div>
+                            <div class="card-explanation">Exec. Física: <b>{p_item['% Física']:.1f}%</b></div>
+                        </div>
+                    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -231,9 +375,12 @@ if tab_choice == "Visão Geral":
                    barmode='group', title="Dotação vs. Valor Liquidado por Programa",
                    labels={'value': 'Valor (R$)', 'Programa Formatado': 'Programa', 'variable': 'Métrica'},
                    color_discrete_sequence=['#1351B4', '#168821'])
-    fig.update_layout(xaxis_tickangle=-45, plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+    fig.update_layout(xaxis_tickangle=-45, plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font_family="Rawline, Inter")
     st.plotly_chart(fig, use_container_width=True)
 
+# ==========================================
+# ABA 2: ANÁLISE POR PROGRAMAS
+# ==========================================
 elif tab_choice == "Análise por Programas":
     st.subheader("Desempenho por Programas (Metas Físicas e Financeiras)")
     
@@ -256,9 +403,12 @@ elif tab_choice == "Análise por Programas":
     fig_prog = pdx.bar(sub_df, x='Código da Ação', y=['Meta Física Estimada', 'Meta Física Alcançada'],
                         barmode='group', title=f"Metas Físicas (Estimada vs Alcançada) - {prog_options[prog_selected_key]}",
                         color_discrete_sequence=['#1351B4', '#FFCD07'])
-    fig_prog.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+    fig_prog.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font_family="Rawline, Inter")
     st.plotly_chart(fig_prog, use_container_width=True)
 
+# ==========================================
+# ABA 3: ANÁLISE POR AÇÕES
+# ==========================================
 elif tab_choice == "Análise por Ações":
     st.subheader("Análise Detalhada de Ações")
     
