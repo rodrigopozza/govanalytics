@@ -11,14 +11,9 @@ st.set_page_config(layout="wide", page_title="Análise RREO - Anexo 8 (Educaçã
 # CONFIGURAÇÃO DA BARRA LATERAL (TOPO)
 # ==========================================
 with st.sidebar:
-    # Logo no topo à esquerda (URL do GitHub com o caminho da logo)
     st.image("https://raw.githubusercontent.com/rodrigopozza/govanalytics/main/pages/logo.png", use_container_width=True)
     st.markdown("---")
-    
-    # Exemplo de conteúdo do menu que você já tem ou vai usar:
     st.markdown("### Navegação")
-    # (Seus filtros ou links da barra lateral entram aqui)
-    # ==========================================
 
 # -----------------------------------------------------------------------------
 # ESTILIZAÇÃO CSS GLOBAL - DESIGN SYSTEM GOV.BR
@@ -32,15 +27,13 @@ st.markdown("""
             color: #141414;
         }
 
-       
-        /* Alinhamento à esquerda padrão do GOV.BR */
         h1, h2, h3, .stMarkdown p {
             text-align: left;
         }
 
         h1 {
             font-weight: 700 !important;
-            color: #0c326f !important; /* Azul Oficial GOV.BR */
+            color: #0c326f !important;
             font-size: 2rem !important;
             border-bottom: 2px solid #004587;
             padding-bottom: 8px;
@@ -57,12 +50,11 @@ st.markdown("""
             color: #2670e8 !important;
         }
 
-        /* CARDS NO ESTILO GOV.BR (Borda lateral azul institucional) */
         .unified-card {
             background-color: #ffffff;
             border: 1px solid #d7d7d7;
-            border-left: 4px solid #1351b4; /* Destaque padrão Gov.BR */
-            border-radius: 4px; /* Bordas menos arredondadas, estilo gov */
+            border-left: 4px solid #1351b4;
+            border-radius: 4px;
             padding: 20px 16px;
             text-align: left;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -226,7 +218,7 @@ def carregar_e_tratar_dados_educacao(file):
     receita_base_impostos = 0.0
     receita_fundeb_total = 0.0
 
-    # Busca MDE Oficial (Linha 29)
+    # Busca MDE Oficial
     for l in linhas:
         if "29 - APLICAÇÃO EM MDE" in l.upper():
             row = list(csv.reader([l.strip()]))[0]
@@ -236,7 +228,7 @@ def carregar_e_tratar_dados_educacao(file):
                     pct_mde_oficial = val
                     break
 
-    # Busca Profissionais FUNDEB (Linha 15)
+    # Busca Profissionais FUNDEB
     for l in linhas:
         if "15 - " in l and "PROFISSIONAIS" in l.upper():
             row = list(csv.reader([l.strip()]))[0]
@@ -299,7 +291,13 @@ v_fundamental = buscar_desp_etapa("FUNDAMENTAL")
 # 3. INTERFACE DO DASHBOARD
 # -----------------------------------------------------------------------------
 st.title("RREO Anexo 8 (Financiamento da Educação)")
-st.markdown("Este painel demonstra o cumprimento da aplicação constitucional em **Manutenção e Desenvolvimento do Ensino (Art. 212 CF)** e a aplicação dos recursos do **FUNDEB (Lei 14.113/2020)**.")
+st.markdown("Este painel demonstra o cumprimento da aplicação constitucional em **Manutenção e Desenvolvimento do Ensino (Art. 212 CF)** e a aplicação dos recursos do **FUNDEB (Lei 14.113/2020)**[cite: 1].")
+
+# --- RESUMO EXECUTIVO DIDÁTICO ---
+st.info(f"""
+💡 **Resumo Executivo para Leitura Rápida:**
+O município registrou uma base de arrecadação de impostos de **{formatar_milhoes(receita_base_impostos)}**[cite: 1]. Deste total, **{pct_mde_oficial:.2f}%** foram investidos em Manutenção e Desenvolvimento do Ensino (MDE), superando a exigência mínima de 25%[cite: 1]. Em relação ao FUNDEB, **{pct_profissionais_fundeb:.2f}%** dos recursos foram aplicados na remuneração dos profissionais da educação, ultrapassando o piso legal obrigatório de 70%[cite: 1].
+""")
 
 # --- BLOCO 1: CARDS UNIFICADOS ---
 st.header("Indicadores de Cumprimento Constitucional e Legal")
@@ -321,11 +319,11 @@ with kpi1:
             <div class="card-icon-wrapper">{icon_mde}</div>
             <div class="card-kpi-title">% Aplicado em MDE</div>
             <div class="card-kpi-value">{pct_mde_oficial:.2f}%</div>
-            <div class="card-kpi-delta" style="color: #059669;">+{delta_mde:.2f}% acima do mín. (25%)</div>
+            <div class="card-kpi-delta" style="color: #059669;">✅ +{delta_mde:.2f}% acima da meta</div>
             <div class="card-divider"></div>
             <div class="card-explanation">
                 <span class="card-bold">Mínimo Constitucional (25%):</span><br>
-                O Art. 212 da CF exige a aplicação de no mínimo 25% das receitas de impostos na MDE.
+                O Art. 212 da CF exige a aplicação de no mínimo 25% das receitas de impostos na MDE[cite: 1].
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -336,11 +334,11 @@ with kpi2:
             <div class="card-icon-wrapper">{icon_teacher}</div>
             <div class="card-kpi-title">% Profissionais FUNDEB</div>
             <div class="card-kpi-value">{pct_profissionais_fundeb:.2f}%</div>
-            <div class="card-kpi-delta" style="color: #059669;">+{delta_prof:.2f}% acima do mín. (70%)</div>
+            <div class="card-kpi-delta" style="color: #059669;">✅ +{delta_prof:.2f}% acima do piso</div>
             <div class="card-divider"></div>
             <div class="card-explanation">
                 <span class="card-bold">Regra dos Profissionais (70%):</span><br>
-                A Lei do FUNDEB (Lei 14.113/20) exige no mínimo 70% dos recursos no pagamento dos profissionais.
+                A Lei do FUNDEB (Lei 14.113/20) exige no mínimo 70% dos recursos no pagamento dos profissionais[cite: 1].
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -351,18 +349,18 @@ with kpi3:
             <div class="card-icon-wrapper">{icon_coin}</div>
             <div class="card-kpi-title">Receita Impostos Base</div>
             <div class="card-kpi-value">{formatar_milhoes(receita_base_impostos)}</div>
-            <div class="card-kpi-delta" style="color: #64748b;">Base MDE (Art. 212)</div>
+            <div class="card-kpi-delta" style="color: #64748b;">Base MDE (Art. 212)[cite: 1]</div>
             <div class="card-divider"></div>
             <div class="card-explanation">
                 <span class="card-bold">Base de Arrecadação:</span><br>
-                Soma dos impostos próprios (IPTU, ISS, ITBI, IRRF) com repasses (FPM, ICMS, IPVA).
+                Soma dos impostos próprios (IPTU, ISS, ITBI, IRRF) com repasses (FPM, ICMS, IPVA)[cite: 1].
             </div>
         </div>
     """, unsafe_allow_html=True)
 
 with kpi4:
     cor_delta_superavit = "#059669" if pct_superavit_fundeb <= 10.0 else "#dc2626"
-    texto_delta_superavit = f"{delta_superavit:.2f}% margem até o limite" if pct_superavit_fundeb <= 10.0 else f"+{abs(delta_superavit):.2f}% acima do limite!"
+    texto_delta_superavit = f"{delta_superavit:.2f}% de folga no limite" if pct_superavit_fundeb <= 10.0 else f"+{abs(delta_superavit):.2f}% acima do limite!"
 
     st.markdown(f"""
         <div class="unified-card">
@@ -373,7 +371,7 @@ with kpi4:
             <div class="card-divider"></div>
             <div class="card-explanation">
                 <span class="card-bold">Limite de Superávit (10%):</span><br>
-                O Art. 25, § 3º da Lei 14.113/20 permite acumular no máximo 10% de saldo para o 1º quadrimestre seguinte.
+                O Art. 25, § 3º da Lei 14.113/20 permite acumular no máximo 10% de saldo para o 1º quadrimestre seguinte[cite: 1].
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -382,6 +380,7 @@ st.markdown("---")
 
 # --- BLOCO 2: VISÃO DE RECEITAS DA EDUCAÇÃO ---
 st.header("Origem das Receitas da Educação")
+st.markdown("Gráfico detalhando as principais fontes de arrecadação de impostos e transferências que compõem o financiamento da educação municipal.")
 
 df_rec_grafico = df_rec_imp[
     ~df_rec_imp['Item de Receita'].str.contains(r"TOTAL|1 - RECEITA DE IMPOSTOS|2 - RECEITA DE TRANSFERÊNCIAS|2\.1\.1|2\.1\.2", case=False, na=False)
@@ -406,39 +405,38 @@ fig_rec.update_layout(
 )
 st.plotly_chart(fig_rec, use_container_width=True)
 
-# Tabela Completa de Receitas
-st.subheader("Tabela de Arrecadação de Impostos e Transferências")
+# Tabela Completa de Receitas em Expandir (para evitar poluição visual inicial)
+with st.expander("🔍 Ver Tabela Analítica Completa de Impostos e Transferências"):
+    itens_destaque = [
+        "1 - RECEITA DE IMPOSTOS",
+        "2 - RECEITA DE TRANSFERÊNCIAS CONSTITUCIONAIS E LEGAIS",
+        "3 - TOTAL DA RECEITA RESULTANTE DE IMPOSTOS (1 + 2)",
+        "2.1 - Cota-Parte FPM"
+    ]
 
-itens_destaque = [
-    "1 - RECEITA DE IMPOSTOS",
-    "2 - RECEITA DE TRANSFERÊNCIAS CONSTITUCIONAIS E LEGAIS",
-    "3 - TOTAL DA RECEITA RESULTANTE DE IMPOSTOS (1 + 2)",
-    "2.1 - Cota-Parte FPM"
-]
+    def destacar_linhas_imp(row):
+        for item in itens_destaque:
+            if item in row['Item de Receita']:
+                return ['font-weight: 600; background-color: #f8fafc;'] * len(row)
+        if "2.1.1" in row['Item de Receita'] or "2.1.2" in row['Item de Receita']:
+            return ['color: #475569; font-size: 0.88rem;'] * len(row)
+        return [''] * len(row)
 
-def destacar_linhas_imp(row):
-    for item in itens_destaque:
-        if item in row['Item de Receita']:
-            return ['font-weight: 600; background-color: #f8fafc;'] * len(row)
-    if "2.1.1" in row['Item de Receita'] or "2.1.2" in row['Item de Receita']:
-        return ['color: #475569; font-size: 0.88rem;'] * len(row)
-    return [''] * len(row)
-
-df_rec_styled = (
-    df_rec_imp.style
-    .apply(destacar_linhas_imp, axis=1)
-    .format({
-        'Previsão Atualizada': lambda x: formatar_brl(x),
-        'Realizado até o Bimestre': lambda x: formatar_brl(x)
-    })
-)
-
-st.dataframe(df_rec_styled, use_container_width=True, hide_index=True)
+    df_rec_styled = (
+        df_rec_imp.style
+        .apply(destacar_linhas_imp, axis=1)
+        .format({
+            'Previsão Atualizada': lambda x: formatar_brl(x),
+            'Realizado até o Bimestre': lambda x: formatar_brl(x)
+        })
+    )
+    st.dataframe(df_rec_styled, use_container_width=True, hide_index=True)
 
 st.markdown("---")
 
 # --- BLOCO 3: EXECUÇÃO ORÇAMENTÁRIA POR ETAPA ---
 st.header("Destinação dos Recursos por Etapa de Ensino")
+st.markdown("Proporção dos recursos públicos aplicados entre as etapas atendidas pela rede municipal de ensino.")
 
 df_etapas_itens = df_desp_etapas[~df_desp_etapas['Etapa / Modalidade'].str.contains("21 - TOTAL", case=False, na=False)].copy()
 
@@ -458,17 +456,17 @@ fig_desp.update_layout(
 )
 st.plotly_chart(fig_desp, use_container_width=True)
 
-st.subheader("Execução Orçamentária por Etapa de Ensino")
-st.dataframe(
-    df_desp_etapas.style.format({
-        'Dotação Atualizada': lambda x: formatar_brl(x),
-        'Despesas Empenhadas': lambda x: formatar_brl(x),
-        'Despesas Liquidadas': lambda x: formatar_brl(x),
-        'Despesas Pagas': lambda x: formatar_brl(x)
-    }), 
-    use_container_width=True,
-    hide_index=True
-)
+with st.expander("🔍 Ver Tabela Completa de Execução Orçamentária por Etapa"):
+    st.dataframe(
+        df_desp_etapas.style.format({
+            'Dotação Atualizada': lambda x: formatar_brl(x),
+            'Despesas Empenhadas': lambda x: formatar_brl(x),
+            'Despesas Liquidadas': lambda x: formatar_brl(x),
+            'Despesas Pagas': lambda x: formatar_brl(x)
+        }), 
+        use_container_width=True,
+        hide_index=True
+    )
 
 st.markdown("---")
 
@@ -519,10 +517,9 @@ with card_col3:
             </div>
         </div>
     """, unsafe_allow_html=True)
-# RODAPÉ DA PÁGINA PRINCIPAL (FINAL DO SCRIPT)
-# ==========================================
+
+# RODAPÉ DA PÁGINA PRINCIPAL
 st.markdown("---")
 col_esq, col_centro, col_dir = st.columns([2, 1, 2])
 with col_centro:
-    # URL do GitHub com o caminho da logo aplicada no rodapé também
     st.image("https://raw.githubusercontent.com/rodrigopozza/govanalytics/main/pages/logo.png", use_container_width=True)
