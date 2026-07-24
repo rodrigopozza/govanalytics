@@ -15,17 +15,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ==========================================
-# TOPO INSTITUCIONAL COM A LOGO GOVANALYTICS
-# ==========================================
-col_logo, col_vazio = st.columns([2, 10])
-with col_logo:
-    if os.path.exists("logo.png"):
-        st.image("logo.png", width=160)
-    else:
-        st.markdown("### **GovAnalytics**")
-
-st.markdown("---")
 
 # ==========================================
 # ESTILIZAÇÃO CSS GLOBAL - DESIGN SYSTEM GOV.BR
