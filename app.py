@@ -8,7 +8,7 @@ pg_educacao = st.Page("pages/educacao.py", title="Educação")
 
 # Criando a navegação com seções (opcional)
 pg = st.navigation({
-    "Menu Principal": [pg_acoes, pg_divida, pg_saude, pg_educacao]
+    "Indicarores": [pg_acoes, pg_divida, pg_saude, pg_educacao]
 })
 
 pg.run()
