@@ -91,15 +91,34 @@ PROGRAMAS_INFO = {
     "9999": {"nome": "RESERVA DE CONTINGÊNCIA", "icone": "🔒"}
 }
 
+import os
+import pandas as pd
+import streamlit as st
+
 @st.cache_data
 def load_data():
-    filepath = 'IEGM - Acoes e Metas Programas e Indicadores (2).csv'
+    # Lista de possíveis caminhos onde o arquivo pode estar localizado no GitHub ou localmente
+    possible_paths = [
+        'IEGM - Acoes e Metas Programas e Indicadores (2).csv',
+        os.path.join(os.path.dirname(__file__), 'IEGM - Acoes e Metas Programas e Indicadores (2).csv'),
+        os.path.join(os.path.dirname(__file__), '..', 'IEGM - Acoes e Metas Programas e Indicadores (2).csv'),
+        './IEGM - Acoes e Metas Programas e Indicadores (2).csv'
+    ]
+    
+    filepath = None
+    for path in possible_paths:
+        if os.path.exists(path):
+            filepath = path
+            break
+            
+    if not filepath:
+        st.error("❌ Arquivo CSV não encontrado. Verifique se o arquivo 'IEGM - Acoes e Metas Programas e Indicadores (2).csv' foi enviado para o repositório do GitHub.")
+        st.stop()
+        
     df = pd.read_csv(filepath, encoding='latin1', sep=',', header=5)
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
     df.columns = df.columns.str.replace('"', '').str.strip()
     return df
-
-df = load_data()
 
 st.title("Programas e Ações de Governo")
 st.markdown("Monitoramento Estratégico de Metas Físicas e Financeiras")
