@@ -1,5 +1,7 @@
 import streamlit as st
 
+
+
 # Definindo as páginas
 pg_acoes = st.Page("pages/acoes.py", title="Programas e Ações")
 pg_divida = st.Page("pages/divida.py", title="Dívida")
@@ -14,3 +16,13 @@ pg = st.navigation({
 pg.run()
 
 
+# ==========================================
+# RODAPÉ DA PÁGINA PRINCIPAL (FINAL DO SCRIPT)
+# ==========================================
+st.markdown("---")
+col_esq, col_centro, col_dir = st.columns([2, 1, 2])
+with col_centro:
+    if os.path.exists(logo_path):
+        st.image(logo_path, use_container_width=True)
+    else:
+        st.image("logo.png", use_container_width=True)
