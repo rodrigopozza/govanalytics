@@ -8,98 +8,110 @@ import re
 # Configuração Inicial da Página
 st.set_page_config(layout="wide", page_title="Análise RREO - Anexo 8 (Educação - MDE e FUNDEB)")
 
-# Menu Lateral de Navegação
-with st.sidebar:
-    if st.button("⬅️ Voltar ao Início", use_container_width=True):
-        st.switch_page("acoes.py")
-
 # -----------------------------------------------------------------------------
-# ESTILIZAÇÃO CSS GLOBAL
+# ESTILIZAÇÃO CSS GLOBAL - DESIGN SYSTEM GOV.BR
 # -----------------------------------------------------------------------------
 st.markdown("""
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Rawline:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
         html, body, [class*="css"], [class*="st-"] {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-            color: #0f172a;
+            font-family: 'Rawline', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            color: #141414;
         }
 
+        /* Barra superior institucional simulando a barra do Governo */
+        header::before {
+            content: "GovAnalytics";
+            display: block;
+            background-color: #004587;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 16px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Alinhamento à esquerda padrão do GOV.BR */
         h1, h2, h3, .stMarkdown p {
-            text-align: center;
+            text-align: left;
         }
 
         h1 {
             font-weight: 700 !important;
-            letter-spacing: -0.025em;
-            color: #0f172a;
+            color: #0c326f !important; /* Azul Oficial GOV.BR */
+            font-size: 2rem !important;
+            border-bottom: 2px solid #004587;
+            padding-bottom: 8px;
         }
 
         h2 {
             font-weight: 600 !important;
-            letter-spacing: -0.02em;
-            color: #1e293b;
+            color: #1351b4 !important;
             margin-top: 1.5rem !important;
         }
 
         h3 {
             font-weight: 600 !important;
-            color: #334155;
+            color: #2670e8 !important;
         }
 
-        /* CARDS UNIFICADOS */
+        /* CARDS NO ESTILO GOV.BR (Borda lateral azul institucional) */
         .unified-card {
             background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
+            border: 1px solid #d7d7d7;
+            border-left: 4px solid #1351b4; /* Destaque padrão Gov.BR */
+            border-radius: 4px; /* Bordas menos arredondadas, estilo gov */
             padding: 20px 16px;
-            text-align: center;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+            text-align: left;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             height: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: flex-start;
             transition: all 0.2s ease-in-out;
         }
+        
         .unified-card:hover {
-            box-shadow: 0 8px 16px -2px rgba(0, 0, 0, 0.06);
-            border-color: #cbd5e1;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+            border-color: #1351b4;
         }
         
         .card-icon-wrapper {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #f0f9ff;
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            background-color: #e5f1f8;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
+        
         .card-icon-wrapper svg {
-            width: 20px;
-            height: 20px;
-            stroke: #0284c7;
+            width: 18px;
+            height: 18px;
+            stroke: #1351b4;
         }
 
         .card-kpi-title {
-            color: #64748b;
-            font-size: 0.78rem;
-            font-weight: 600;
+            color: #454545;
+            font-size: 0.75rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
+        
         .card-kpi-value {
-            color: #0f172a;
+            color: #0c326f;
             font-size: 1.5rem;
             font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
+        
         .card-kpi-delta {
-            font-size: 0.825rem;
+            font-size: 0.8rem;
             font-weight: 600;
             margin-bottom: 12px;
         }
@@ -107,19 +119,20 @@ st.markdown("""
         .card-divider {
             width: 100%;
             height: 1px;
-            background-color: #f1f5f9;
+            background-color: #d7d7d7;
             margin-bottom: 12px;
         }
 
         .card-explanation {
-            color: #475569;
+            color: #333333;
             font-size: 0.82rem;
-            line-height: 1.5;
+            line-height: 1.4;
             font-weight: 400;
         }
+        
         .card-bold {
-            font-weight: 600;
-            color: #0f172a;
+            font-weight: 700;
+            color: #141414;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -380,11 +393,11 @@ fig_rec = px.bar(
     title="Arrecadação Efetiva por Fonte de Receita de Impostos (Base MDE)",
     labels={'Realizado até o Bimestre': 'Valor Realizado (R$)', 'Item de Receita': 'Origem da Receita'},
     orientation='h', 
-    color_discrete_sequence=['#2563eb'],
+    color_discrete_sequence=['#1351b4'],
     text_auto='.2s'
 )
 fig_rec.update_layout(
-    font_family="Inter",
+    font_family="Rawline, Inter",
     title_x=0.5,
     yaxis={'categoryorder': 'total ascending'}, 
     margin=dict(l=50, r=20, t=40, b=20), 
@@ -434,10 +447,10 @@ fig_desp = px.pie(
     names='Etapa / Modalidade', 
     title='Distribuição da Despesa por Etapa de Ensino (MDE + FUNDEB)',
     hole=0.45, 
-    color_discrete_sequence=px.colors.qualitative.Set2
+    color_discrete_sequence=['#1351b4', '#2670e8', '#5391ff', '#85b5ff']
 )
 fig_desp.update_layout(
-    font_family="Inter",
+    font_family="Rawline, Inter",
     title_x=0.5,
     margin=dict(l=20, r=20, t=40, b=20), 
     height=450
