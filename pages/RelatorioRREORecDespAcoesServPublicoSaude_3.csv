@@ -1,0 +1,176 @@
+﻿dsItem,vlPrevisaoInicialDoExercicio,vlPrevisaoAtualizadaDoExercicio,vlRealizadoAteOBimestre,vlCalculoPercentual
+RECEITA DE IMPOSTOS (I)," 148.750.000,00"," 148.750.000,00"," 65.745.869,04","44,20"
+   Receita Resultante do Imposto Predial e Territorial Urbano - IPTU," 72.000.000,00"," 72.000.000,00"," 27.735.079,15","38,52"
+   Receita Resultante do Imposto sobre Transmissão Inter Vivos - ITBI," 10.000.000,00"," 10.000.000,00"," 4.547.327,57","45,47"
+   Receita Resultante do Imposto sobre Serviços de Qualquer Natureza - ISS," 41.500.000,00"," 41.500.000,00"," 22.692.416,24","54,68"
+   Receita Resultante do Imposto sobre a Renda e Proventos de Qualquer Natureza Retido na Fonte - IRRF," 25.250.000,00"," 25.250.000,00"," 10.771.046,08","42,66"
+RECEITA DE TRANSFERÊNCIAS CONSTITUCIONAIS E LEGAIS (II)," 226.000.000,00"," 226.000.000,00"," 107.133.583,92","47,40"
+   Cota-Parte FPM," 117.500.000,00"," 117.500.000,00"," 54.426.866,55","46,32"
+   Cota-Parte ITR," 6.000.000,00"," 6.000.000,00"," 588.736,20","9,81"
+   Cota-Parte IPVA," 25.000.000,00"," 25.000.000,00"," 17.293.964,06","69,18"
+   Cota-Parte ICMS," 76.500.000,00"," 76.500.000,00"," 34.307.392,76","44,85"
+   Cota-Parte IPI-Exportação," 1.000.000,00"," 1.000.000,00"," 516.624,35","51,66"
+   Outras Transferências ou Compensações Financeiras Provenientes de Impostos e Transferências Constitucionais," 0,00"," 0,00"," 0,00","0,00"
+TOTAL DAS RECEITAS RESULTANTES DE IMPOSTOS E TRANSFERÊNCIAS CONSTITUCIONAIS E LEGAIS (III) = (I + II)," 374.750.000,00"," 374.750.000,00"," 172.879.452,96","46,13"
+
+dsItem3,vlPrevistoDoExercicio3,Textbox39,vlRealizadoXLiquidadoAteOBimestre3,vlRealizadoXLiquidadoDoBimestre_ExAnterior3,vlLiquidadoAteOBimestre,vlCalculoPercentualLiquidado_01,Textbox63,Textbox98
+ATENÇÃO BÁSICA (IV)," 39.519.000,00"," 40.033.500,00"," 21.463.726,86","53,61"," 21.074.247,93","52,64"," 20.782.095,99","51,91"
+   Despesas Correntes," 38.618.000,00"," 38.633.000,00"," 20.123.231,70","52,09"," 19.810.073,22","51,28"," 19.517.921,28","50,52"
+   Despesas de Capital," 901.000,00"," 1.400.500,00"," 1.340.495,16","95,72"," 1.264.174,71","90,27"," 1.264.174,71","90,27"
+ASSISTÊNCIA HOSPITALAR E AMBULATORIAL (V)," 43.083.000,00"," 43.493.000,00"," 22.137.810,77","50,90"," 18.834.136,27","43,30"," 17.202.187,37","39,55"
+   Despesas Correntes," 42.682.000,00"," 42.547.000,00"," 21.264.096,14","49,98"," 18.773.583,04","44,12"," 17.141.634,14","40,29"
+   Despesas de Capital," 401.000,00"," 946.000,00"," 873.714,63","92,36"," 60.553,23","6,40"," 60.553,23","6,40"
+SUPORTE PROFILÁTICO E TERAPÊUTICO (VI)," 4.688.028,00"," 4.688.028,00"," 2.218.994,98","47,33"," 1.597.448,68","34,08"," 1.583.926,69","33,79"
+   Despesas Correntes," 4.678.028,00"," 4.675.028,00"," 2.213.838,54","47,35"," 1.592.292,24","34,06"," 1.578.770,25","33,77"
+   Despesas de Capital," 10.000,00"," 13.000,00"," 5.156,44","39,66"," 5.156,44","39,66"," 5.156,44","39,66"
+VIGILÂNCIA SANITÁRIA (VII)," 2.936.000,00"," 2.951.000,00"," 1.195.852,92","40,52"," 1.132.575,51","38,38"," 1.110.119,12","37,62"
+   Despesas Correntes," 2.830.000,00"," 2.845.000,00"," 1.195.417,92","42,02"," 1.132.140,51","39,79"," 1.109.684,12","39,00"
+   Despesas de Capital," 106.000,00"," 106.000,00"," 435,00","0,41"," 435,00","0,41"," 435,00","0,41"
+VIGILÂNCIA EPIDEMIOLÓGICA (VIII)," 4.589.000,00"," 4.589.000,00"," 2.433.163,97","53,02"," 2.320.633,75","50,57"," 2.264.509,23","49,35"
+   Despesas Correntes," 4.583.000,00"," 4.583.000,00"," 2.433.163,97","53,09"," 2.320.633,75","50,64"," 2.264.509,23","49,41"
+   Despesas de Capital," 6.000,00"," 6.000,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"
+ALIMENTAÇÃO E NUTRIÇÃO (IX)," 1.005.000,00"," 1.005.000,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"
+   Despesas Correntes," 1.004.000,00"," 1.004.000,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"
+   Despesas de Capital," 1.000,00"," 1.000,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"
+OUTRAS SUBFUNÇÕES (X)," 8.438.442,00"," 8.518.442,00"," 4.111.186,90","48,26"," 3.624.988,50","42,55"," 3.581.166,81","42,04"
+   Despesas Correntes," 8.310.442,00"," 8.390.442,00"," 4.090.374,74","48,75"," 3.606.804,34","42,99"," 3.562.982,65","42,46"
+   Despesas de Capital," 128.000,00"," 128.000,00"," 20.812,16","16,26"," 18.184,16","14,21"," 18.184,16","14,21"
+TOTAL (XI) = (IV + V + VI + VII + VIII + IX + X)," 104.258.470,00"," 105.277.970,00"," 53.560.736,40","50,88"," 48.584.030,64","46,15"," 46.524.005,21","44,19"
+
+dsItem10,vlPrevistoDoExercicio8,Textbox171,vlRealizadoXLiquidadoAteOBimestre10,vlRealizadoXLiquidadoDoBimestre_ExAnterior8,vlLiquidadoAteOBimestre2,vlCalculoPercentualLiquidado_2,Textbox91,Textbox106,vlRealizadoXLiquidadoDoBimestre_ExAnterior12
+ATENÇÃO BÁSICA (IV)," 39.519.000,00"," 40.033.500,00"," 21.463.726,86","53,61"," 21.074.247,93","52,64"," 20.782.095,99","51,91"," 0,00"
+   Despesas Correntes," 38.618.000,00"," 38.633.000,00"," 20.123.231,70","52,09"," 19.810.073,22","51,28"," 19.517.921,28","50,52"," 0,00"
+   Despesas de Capital," 901.000,00"," 1.400.500,00"," 1.340.495,16","95,72"," 1.264.174,71","90,27"," 1.264.174,71","90,27"," 0,00"
+ASSISTÊNCIA HOSPITALAR E AMBULATORIAL (V)," 43.083.000,00"," 43.493.000,00"," 22.137.810,77","50,90"," 18.834.136,27","43,30"," 17.202.187,37","39,55"," 0,00"
+   Despesas Correntes," 42.682.000,00"," 42.547.000,00"," 21.264.096,14","49,98"," 18.773.583,04","44,12"," 17.141.634,14","40,29"," 0,00"
+   Despesas de Capital," 401.000,00"," 946.000,00"," 873.714,63","92,36"," 60.553,23","6,40"," 60.553,23","6,40"," 0,00"
+SUPORTE PROFILÁTICO E TERAPÊUTICO (VI)," 4.688.028,00"," 4.688.028,00"," 2.218.994,98","47,33"," 1.597.448,68","34,08"," 1.583.926,69","33,79"," 0,00"
+   Despesas Correntes," 4.678.028,00"," 4.675.028,00"," 2.213.838,54","47,35"," 1.592.292,24","34,06"," 1.578.770,25","33,77"," 0,00"
+   Despesas de Capital," 10.000,00"," 13.000,00"," 5.156,44","39,66"," 5.156,44","39,66"," 5.156,44","39,66"," 0,00"
+VIGILÂNCIA SANITÁRIA (VII)," 2.936.000,00"," 2.951.000,00"," 1.195.852,92","40,52"," 1.132.575,51","38,38"," 1.110.119,12","37,62"," 0,00"
+   Despesas Correntes," 2.830.000,00"," 2.845.000,00"," 1.195.417,92","42,02"," 1.132.140,51","39,79"," 1.109.684,12","39,00"," 0,00"
+   Despesas de Capital," 106.000,00"," 106.000,00"," 435,00","0,41"," 435,00","0,41"," 435,00","0,41"," 0,00"
+VIGILÂNCIA EPIDEMIOLÓGICA (VIII)," 4.589.000,00"," 4.589.000,00"," 2.433.163,97","53,02"," 2.320.633,75","50,57"," 2.264.509,23","49,35"," 0,00"
+   Despesas Correntes," 4.583.000,00"," 4.583.000,00"," 2.433.163,97","53,09"," 2.320.633,75","50,64"," 2.264.509,23","49,41"," 0,00"
+   Despesas de Capital," 6.000,00"," 6.000,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"," 0,00"
+ALIMENTAÇÃO E NUTRIÇÃO (IX)," 1.005.000,00"," 1.005.000,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"," 0,00"
+   Despesas Correntes," 1.004.000,00"," 1.004.000,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"," 0,00"
+   Despesas de Capital," 1.000,00"," 1.000,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"," 0,00"
+OUTRAS SUBFUNÇÕES (X)," 8.438.442,00"," 8.518.442,00"," 4.111.186,90","48,26"," 3.624.988,50","42,55"," 3.581.166,81","42,04"," 0,00"
+   Despesas Correntes," 8.310.442,00"," 8.390.442,00"," 4.090.374,74","48,75"," 3.606.804,34","42,99"," 3.562.982,65","42,46"," 0,00"
+   Despesas de Capital," 128.000,00"," 128.000,00"," 20.812,16","16,26"," 18.184,16","14,21"," 18.184,16","14,21"," 0,00"
+TOTAL (XI) = (IV + V + VI + VII + VIII + IX + X)," 104.258.470,00"," 105.277.970,00"," 53.560.736,40","50,88"," 48.584.030,64","46,15"," 46.524.005,21","44,19"," 0,00"
+
+dsItem4,vlRealizadoXLiquidadoAteOBimestre4,Textbox64,Textbox115,Textbox156,Textbox157,Textbox161,Textbox165,Textbox172,Textbox173
+Total das Despesas com ASPS (XII) = (XI)," 53.560.736,40"," 48.584.030,64"," 46.524.005,21",,,,,,
+(-) Restos a Pagar Não Processados Inscritos Indevidamente no Exercício sem Disponibilidade Financeira (XIII)," 72.785,91"," 72.785,91"," 72.785,91",,,,,,
+(-) Despesas Custeadas com Recursos Vinculados à Parcela do Percentual Mínimo que não foi Aplicada em ASPS em Exercícios Anteriores (XIV)," 0,00"," 0,00"," 0,00",,,,,,
+(-) Despesas Custeadas com Disponibilidade de Caixa Vinculada aos Restos a Pagar Cancelados (XV)," 0,00"," 0,00"," 0,00",,,,,,
+(=) VALOR APLICADO EM ASPS (XVI) = (XII - XIII - XIV - XV)," 53.487.950,49"," 48.511.244,73"," 46.451.219,30",,,,,,
+,,,,Despesa Mínima a ser Aplicada em ASPS (XVII) = (III) x 15% (LC 141/2012)," 25.931.917,94",,,,
+,,,,Despesa Mínima a ser Aplicada em ASPS (XVII) = (III) x % (Lei Orgânica Municipal)," 0,00",,,,
+,,,,,,Diferença entre o Valor Aplicado e a Despesa Mínima a ser Aplicada (XVIII) = (XVI (d ou e) - XVII)¹," 27.556.032,55"," 22.579.326,79"," 20.519.301,36"
+,,,,,,Limite não Cumprido (XIX) = (XVIII),-,,
+,,,,,,PERCENTUAL DA RECEITA DE IMPOSTOS E TRANSFERÊNCIAS CONSTITUCIONAIS E LEGAIS APLICADO EM ASPS (XVI / III)*100 (mínimo de 15% conforme LC n° 141/2012 ou % da Lei Orgânica Municipal)," 30,94"," 28,06",
+
+nrAto,Textbox104
+
+dsItem7,Textbox80,vlRealizadoXLiquidadoAteOBimestre7,Textbox194,Textbox192,Textbox81
+Diferença de limite não cumprido em 2026,,,,," 0,00"
+Diferença de limite não cumprido em 2025," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+Diferença de limite não cumprido em Exercícios Anteriores," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+TOTAL DA DIFERENÇA DE LIMITE NÃO CUMPRIDO EM EXERCÍCIOS ANTERIORES (XX)," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+
+dsItem8,vlPrevisaoInicialDoExercicio2,vlPrevisaoAtualizadaDoExercicio2,vlRealizadoAteOBimestre2,vlCalculoPercentual2,vlCalculoPercentual3,vlCalculoPercentual4,vlCalculoPercentual5,vlCalculoPercentual6,vlCalculoPercentual7,vlCalculoPercentual8,dsItem9,vlCalculoPercentual9
+Empenhos de 2026," 25.931.917,94"," 53.487.950,49"," 27.556.032,55"," 0,00"," 72.785,91"," 0,00",," 0,00",," 27.628.818,46",,
+Empenhos de 2025," 45.223.938,24"," 86.459.470,50"," 41.235.532,26"," 708.842,49"," 0,00"," 0,00"," 347.655,98"," 157.654,71"," 203.531,80"," 41.032.000,46",,
+Empenhos de 2024," 42.110.207,25"," 79.670.877,77"," 37.560.670,52"," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"," 37.560.670,52",,
+Empenhos de 2023," 36.153.428,90"," 74.245.986,65"," 38.092.557,75"," 244.974,24"," 0,00"," 0,00"," 22.555,91"," 222.418,33"," 0,00"," 38.092.557,75",,
+Empenhos de 2022 e anteriores," 59.220.664,71"," 105.992.953,29"," 46.772.288,58"," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"," 46.772.288,58",,
+,,,,,,,,,,,TOTAL DOS RESTOS A PAGAR CANCELADOS OU PRESCRITOS ATÉ O FINAL DO EXERCÍCIO ATUAL QUE AFETARAM O CUMPRIMENTO DO LIMITE (XXI)," 0,00"
+,,,,,,,,,,,TOTAL DOS RESTOS A PAGAR CANC. OU PRESCRITOS ATÉ O FINAL DO EXERCÍCIO ANTERIOR QUE AFETARAM O CUMPRIMENTO DO LIMITE (XXII)," 0,00"
+,,,,,,,,,,,TOTAL DOS RESTOS A PAGAR CANCELADOS OU PRESCRITOS NO EXERCÍCIO ATUAL QUE AFETARAM O CUMPRIMENTO DO LIMITE (XXIII) = (XXI - XXII)," 0,00"
+
+dsItem13,Textbox83,vlRealizadoXLiquidadoAteOBimestre8,Textbox221,Textbox222,Textbox89
+Restos a pagar cancelados ou prescritos em 2026 a serem compensados (XXIV),-," 0,00"," 0,00"," 0,00",-
+Restos a pagar cancelados ou prescritos em 2025 a serem compensados (XXV),-," 0,00"," 0,00"," 0,00",-
+Restos a pagar cancelados ou prescritos em exercícios anteriores a serem compensados (XXVI),-," 560.639,16"," 560.639,16"," 560.639,16",-
+TOTAL DE RESTOS A PAGAR CANCELADOS OU PRESCRITOS A COMPENSAR (XXVII),-," 560.639,16"," 560.639,16"," 560.639,16",-
+
+dsItem2,vlPrevistoDoExercicio2,Textbox31,vlRealizadoXLiquidadoAteOBimestre2,vlRealizadoXLiquidadoDoBimestre_ExAnterior2
+RECEITAS DE TRANSFERÊNCIAS PARA A SAÚDE (XXVIII)," 27.159.000,00"," 30.859.000,00"," 19.505.873,11","63,21"
+   Proveniente da União," 26.799.000,00"," 30.249.000,00"," 16.964.435,11","56,08"
+   Proveniente dos Estados," 360.000,00"," 610.000,00"," 2.541.438,00","416,63"
+   Proveniente de outros Municípios," 0,00"," 0,00"," 0,00","0,00"
+RECEITA DE OPERAÇÕES DE CRÉDITO INTERNAS E EXTERNAS VINCULADAS À SAÚDE (XXIX)," 0,00"," 0,00"," 0,00","0,00"
+OUTRAS RECEITAS (XXX)," 1.400.000,00"," 1.400.000,00"," 1.539.829,47","109,99"
+TOTAL DE RECEITAS ADICIONAIS PARA FINANCIAMENTO DA SAÚDE (XXXI) = (XXVIII + XXIX + XXX)," 28.559.000,00"," 32.259.000,00"," 21.045.702,58","65,24"
+
+dsItem5,vlPrevistoDoExercicio4,Textbox66,vlRealizadoXLiquidadoAteOBimestre5,vlRealizadoXLiquidadoDoBimestre_ExAnterior4,vlLiquidadoAteOBimestre3,vlCalculoPercentualLiquidado_3,Textbox67,Textbox108
+ATENÇÃO BÁSICA (XXXII)," 17.030.000,00"," 25.409.805,14"," 11.969.997,89","47,11"," 9.658.577,23","38,01"," 9.481.458,09","37,31"
+   Despesas Correntes," 15.980.000,00"," 21.578.665,72"," 8.775.417,04","40,67"," 7.803.152,19","36,16"," 7.626.033,05","35,34"
+   Despesas de Capital," 1.050.000,00"," 3.831.139,42"," 3.194.580,85","83,38"," 1.855.425,04","48,43"," 1.855.425,04","48,43"
+ASSISTÊNCIA HOSPITALAR E AMBULATORIAL (XXXIII)," 18.239.000,00"," 21.590.796,86"," 13.950.912,38","64,62"," 5.754.725,17","26,65"," 5.734.853,79","26,56"
+   Despesas Correntes," 6.888.000,00"," 10.239.796,86"," 6.902.432,91","67,41"," 4.859.624,09","47,46"," 4.839.752,71","47,26"
+   Despesas de Capital," 11.351.000,00"," 11.351.000,00"," 7.048.479,47","62,10"," 895.101,08","7,89"," 895.101,08","7,89"
+SUPORTE PROFILÁTICO E TERAPÊUTICO (XXXIV)," 0,00"," 74.947,24"," 24.424,59","32,59"," 12.476,46","16,65"," 12.476,46","16,65"
+   Despesas Correntes," 0,00"," 33.543,78"," 13.073,48","38,97"," 1.323,35","3,95"," 1.323,35","3,95"
+   Despesas de Capital," 0,00"," 41.403,46"," 11.351,11","27,42"," 11.153,11","26,94"," 11.153,11","26,94"
+VIGILÂNCIA SANITÁRIA (XXXV)," 72.000,00"," 272.649,81"," 197.143,97","72,31"," 84.212,46","30,89"," 83.200,78","30,52"
+   Despesas Correntes," 72.000,00"," 272.649,81"," 197.143,97","72,31"," 84.212,46","30,89"," 83.200,78","30,52"
+   Despesas de Capital," 0,00"," 0,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"
+VIGILÂNCIA EPIDEMIOLÓGICA (XXXVI)," 2.380.000,00"," 2.380.000,00"," 1.199.208,02","50,39"," 1.148.764,28","48,27"," 1.142.439,67","48,00"
+   Despesas Correntes," 2.345.000,00"," 2.345.000,00"," 1.197.968,26","51,09"," 1.147.944,52","48,95"," 1.141.619,91","48,68"
+   Despesas de Capital," 35.000,00"," 35.000,00"," 1.239,76","3,54"," 819,76","2,34"," 819,76","2,34"
+ALIMENTAÇÃO E NUTRIÇÃO (XXXVII)," 0,00"," 838,90"," 838,90","100,00"," 308,30","36,75"," 308,30","36,75"
+   Despesas Correntes," 0,00"," 838,90"," 838,90","100,00"," 308,30","36,75"," 308,30","36,75"
+   Despesas de Capital," 0,00"," 0,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"
+OUTRAS SUBFUNÇÕES (XXXVIII)," 88.000,00"," 88.000,00"," 16.152,86","18,36"," 16.152,86","18,36"," 16.152,86","18,36"
+   Despesas Correntes," 87.000,00"," 87.000,00"," 16.152,86","18,57"," 16.152,86","18,57"," 16.152,86","18,57"
+   Despesas de Capital," 1.000,00"," 1.000,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"
+TOTAL DAS DESPESAS NÃO COMPUTADAS NO CÁLCULO DO MÍNIMO (XXXIX) = (XXXII + XXXIII + XXXIV + XXXV + XXXVI + XXXVII + XXXVIII)," 37.809.000,00"," 49.817.037,95"," 27.358.678,61","54,92"," 16.675.216,76","33,47"," 16.470.889,95","33,06"
+
+dsItem11,vlPrevistoDoExercicio9,Textbox196,vlRealizadoXLiquidadoAteOBimestre11,vlRealizadoXLiquidadoDoBimestre_ExAnterior9,vlLiquidadoAteOBimestre4,vlCalculoPercentualLiquidado_4,Textbox92,Textbox116,vlRealizadoXLiquidadoDoBimestre_ExAnterior13
+ATENÇÃO BÁSICA (XXXII)," 17.030.000,00"," 25.409.805,14"," 11.969.997,89","47,11"," 9.658.577,23","38,01"," 9.481.458,09","37,31"," 0,00"
+   Despesas Correntes," 15.980.000,00"," 21.578.665,72"," 8.775.417,04","40,67"," 7.803.152,19","36,16"," 7.626.033,05","35,34"," 0,00"
+   Despesas de Capital," 1.050.000,00"," 3.831.139,42"," 3.194.580,85","83,38"," 1.855.425,04","48,43"," 1.855.425,04","48,43"," 0,00"
+ASSISTÊNCIA HOSPITALAR E AMBULATORIAL (XXXIII)," 18.239.000,00"," 21.590.796,86"," 13.950.912,38","64,62"," 5.754.725,17","26,65"," 5.734.853,79","26,56"," 0,00"
+   Despesas Correntes," 6.888.000,00"," 10.239.796,86"," 6.902.432,91","67,41"," 4.859.624,09","47,46"," 4.839.752,71","47,26"," 0,00"
+   Despesas de Capital," 11.351.000,00"," 11.351.000,00"," 7.048.479,47","62,10"," 895.101,08","7,89"," 895.101,08","7,89"," 0,00"
+SUPORTE PROFILÁTICO E TERAPÊUTICO (XXXIV)," 0,00"," 74.947,24"," 24.424,59","32,59"," 12.476,46","16,65"," 12.476,46","16,65"," 0,00"
+   Despesas Correntes," 0,00"," 33.543,78"," 13.073,48","38,97"," 1.323,35","3,95"," 1.323,35","3,95"," 0,00"
+   Despesas de Capital," 0,00"," 41.403,46"," 11.351,11","27,42"," 11.153,11","26,94"," 11.153,11","26,94"," 0,00"
+VIGILÂNCIA SANITÁRIA (XXXV)," 72.000,00"," 272.649,81"," 197.143,97","72,31"," 84.212,46","30,89"," 83.200,78","30,52"," 0,00"
+   Despesas Correntes," 72.000,00"," 272.649,81"," 197.143,97","72,31"," 84.212,46","30,89"," 83.200,78","30,52"," 0,00"
+   Despesas de Capital," 0,00"," 0,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"," 0,00"
+VIGILÂNCIA EPIDEMIOLÓGICA (XXXVI)," 2.380.000,00"," 2.380.000,00"," 1.199.208,02","50,39"," 1.148.764,28","48,27"," 1.142.439,67","48,00"," 0,00"
+   Despesas Correntes," 2.345.000,00"," 2.345.000,00"," 1.197.968,26","51,09"," 1.147.944,52","48,95"," 1.141.619,91","48,68"," 0,00"
+   Despesas de Capital," 35.000,00"," 35.000,00"," 1.239,76","3,54"," 819,76","2,34"," 819,76","2,34"," 0,00"
+ALIMENTAÇÃO E NUTRIÇÃO (XXXVII)," 0,00"," 838,90"," 838,90","100,00"," 308,30","36,75"," 308,30","36,75"," 0,00"
+   Despesas Correntes," 0,00"," 838,90"," 838,90","100,00"," 308,30","36,75"," 308,30","36,75"," 0,00"
+   Despesas de Capital," 0,00"," 0,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"," 0,00"
+OUTRAS SUBFUNÇÕES (XXXVIII)," 88.000,00"," 88.000,00"," 16.152,86","18,36"," 16.152,86","18,36"," 16.152,86","18,36"," 0,00"
+   Despesas Correntes," 87.000,00"," 87.000,00"," 16.152,86","18,57"," 16.152,86","18,57"," 16.152,86","18,57"," 0,00"
+   Despesas de Capital," 1.000,00"," 1.000,00"," 0,00","0,00"," 0,00","0,00"," 0,00","0,00"," 0,00"
+TOTAL DAS DESPESAS NÃO COMPUTADAS NO CÁLCULO DO MÍNIMO (XXXIX) = (XXXII + XXXIII + XXXIV + XXXV + XXXVI + XXXVII + XXXVIII)," 37.809.000,00"," 49.817.037,95"," 27.358.678,61","54,92"," 16.675.216,76","33,47"," 16.470.889,95","33,06"," 0,00"
+
+dsItem6,vlPrevistoDoExercicio5,Textbox77,vlRealizadoXLiquidadoAteOBimestre6,vlRealizadoXLiquidadoDoBimestre_ExAnterior5,vlLiquidadoAteOBimestre5,vlCalculoPercentualLiquidado_5,Textbox78,Textbox117
+ATENÇÃO BÁSICA (XL) = (IV + XXXII)," 56.549.000,00"," 65.443.305,14"," 33.433.724,75","51,09"," 30.732.825,16","46,96"," 30.263.554,08","46,24"
+ASSISTÊNCIA HOSPITALAR E AMBULATORIAL (XLI) = (V + XXXIII)," 61.322.000,00"," 65.083.796,86"," 36.088.723,15","55,45"," 24.588.861,44","37,78"," 22.937.041,16","35,24"
+SUPORTE PROFILÁTICO E TERAPÊUTICO (XLII) = (VI + XXXIV)," 4.688.028,00"," 4.762.975,24"," 2.243.419,57","47,10"," 1.609.925,14","33,80"," 1.596.403,15","33,52"
+VIGILÂNCIA SANITÁRIA (XLIII) = (VII + XXXV)," 3.008.000,00"," 3.223.649,81"," 1.392.996,89","43,21"," 1.216.787,97","37,75"," 1.193.319,90","37,02"
+VIGILÂNCIA EPIDEMIOLÓGICA (XLIV) = (VIII + XXXVI)," 6.969.000,00"," 6.969.000,00"," 3.632.371,99","52,12"," 3.469.398,03","49,78"," 3.406.948,90","48,89"
+ALIMENTAÇÃO E NUTRIÇÃO (XLV) = (IX + XXXVII)," 1.005.000,00"," 1.005.838,90"," 838,90","0,08"," 308,30","0,03"," 308,30","0,03"
+OUTRAS SUBFUNÇÕES (XLVI) = (X + XXXVIII)," 8.526.442,00"," 8.606.442,00"," 4.127.339,76","47,96"," 3.641.141,36","42,31"," 3.597.319,67","41,80"
+TOTAL DAS DESPESAS COM SAÚDE (XLVII) = (XI + XXXIX)," 142.067.470,00"," 155.095.007,95"," 80.919.415,01","52,17"," 65.259.247,40","42,08"," 62.994.895,16","40,62"
+
+dsItem12,vlPrevistoDoExercicio10,Textbox210,vlRealizadoXLiquidadoAteOBimestre12,vlRealizadoXLiquidadoDoBimestre_ExAnterior10,vlLiquidadoAteOBimestre6,vlCalculoPercentualLiquidado_6,Textbox93,Textbox122,vlRealizadoXLiquidadoDoBimestre_ExAnterior14
+ATENÇÃO BÁSICA (XL) = (IV + XXXII)," 56.549.000,00"," 65.443.305,14"," 33.433.724,75","51,09"," 30.732.825,16","46,96"," 30.263.554,08","46,24"," 0,00"
+ASSISTÊNCIA HOSPITALAR E AMBULATORIAL (XLI) = (V + XXXIII)," 61.322.000,00"," 65.083.796,86"," 36.088.723,15","55,45"," 24.588.861,44","37,78"," 22.937.041,16","35,24"," 0,00"
+SUPORTE PROFILÁTICO E TERAPÊUTICO (XLII) = (VI + XXXIV)," 4.688.028,00"," 4.762.975,24"," 2.243.419,57","47,10"," 1.609.925,14","33,80"," 1.596.403,15","33,52"," 0,00"
+VIGILÂNCIA SANITÁRIA (XLIII) = (VII + XXXV)," 3.008.000,00"," 3.223.649,81"," 1.392.996,89","43,21"," 1.216.787,97","37,75"," 1.193.319,90","37,02"," 0,00"
+VIGILÂNCIA EPIDEMIOLÓGICA (XLIV) = (VIII + XXXVI)," 6.969.000,00"," 6.969.000,00"," 3.632.371,99","52,12"," 3.469.398,03","49,78"," 3.406.948,90","48,89"," 0,00"
+ALIMENTAÇÃO E NUTRIÇÃO (XLV) = (IX + XXXVII)," 1.005.000,00"," 1.005.838,90"," 838,90","0,08"," 308,30","0,03"," 308,30","0,03"," 0,00"
+OUTRAS SUBFUNÇÕES (XLVI) = (X + XXXVIII)," 8.526.442,00"," 8.606.442,00"," 4.127.339,76","47,96"," 3.641.141,36","42,31"," 3.597.319,67","41,80"," 0,00"
+TOTAL DAS DESPESAS COM SAÚDE (XLVII) = (XI + XXXIX)," 142.067.470,00"," 155.095.007,95"," 80.919.415,01","52,17"," 65.259.247,40","42,08"," 62.994.895,16","40,62"," 0,00"
+

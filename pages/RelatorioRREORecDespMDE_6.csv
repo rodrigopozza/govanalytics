@@ -1,0 +1,171 @@
+﻿dsSumarioItem,vlPrevisaoAtualizadaDoExercicio,vlRealizadoAteOBimestre
+1 - RECEITA DE IMPOSTOS," 148.750.000,00"," 65.745.869,04"
+   1.1 - Receita Resultante do Imposto sobre a Propriedade Predial e Territorial Urbana – IPTU," 72.000.000,00"," 27.735.079,15"
+   1.2 - Receita Resultante do Imposto sobre Transmissão Inter Vivos – ITBI," 10.000.000,00"," 4.547.327,57"
+   1.3 - Receita Resultante do Imposto sobre Serviços de Qualquer Natureza – ISS," 41.500.000,00"," 22.692.416,24"
+   1.4 - Receita Resultante do Imposto de Renda Retido na Fonte – IRRF," 25.250.000,00"," 10.771.046,08"
+2 - RECEITA DE TRANSFERÊNCIAS CONSTITUCIONAIS E LEGAIS," 236.000.000,00"," 107.133.583,92"
+   2.1 - Cota-Parte FPM," 127.500.000,00"," 54.426.866,55"
+"      2.1.1 - Parcela referente à CF, art. 159, I, alínea 'b'"," 117.500.000,00"," 54.426.866,55"
+"      2.1.2 - Parcela referente à CF, art. 159, I, alíneas 'd' e 'e'"," 10.000.000,00"," 0,00"
+   2.2 - Cota-Parte ICMS," 76.500.000,00"," 34.307.392,76"
+   2.3 - Cota-Parte IPI-Exportação," 1.000.000,00"," 516.624,35"
+   2.4 - Cota-Parte ITR," 6.000.000,00"," 588.736,20"
+   2.5 - Cota-Parte IPVA," 25.000.000,00"," 17.293.964,06"
+   2.6 - Cota-Parte IOF-Ouro," 0,00"," 0,00"
+   2.7 - Compensações Financeiras Provenientes de Impostos e Transferências Constitucionais," 0,00"," 0,00"
+3 - TOTAL DA RECEITA RESULTANTE DE IMPOSTOS (1 + 2)," 384.750.000,00"," 172.879.452,96"
+4 - TOTAL DESTINADO AO FUNDEB - 20% DE ((2.1.1) + (2.2) + (2.3) + (2.4) + (2.5))," 45.200.000,00"," 21.426.716,78"
+5 - VALOR MÍNIMO A SER APLICADO ALÉM DO VALOR DESTINADO AO FUNDEB (=) 5% DE ((2.1.1) + (2.2) + (2.3) + (2.4) + (2.5)) (+) 25% DE ((1.1) + (1.2) + (1.3) + (1.4) + (2.1.2) + (2.6) + (2.7))," 50.987.500,00"," 21.793.146,46"
+
+dsSumarioItem2,vlPrevisaoAtualizadaDoExercicio2,vlRealizadoAteOBimestre2
+6 - RECEITAS RECEBIDAS DO FUNDEB," 90.516.970,00"," 46.479.921,68"
+   6.1 - FUNDEB - Impostos e Transferências de Impostos," 84.414.970,00"," 43.243.406,08"
+      6.1.1 - Principal," 84.414.970,00"," 42.581.212,36"
+      6.1.2 - Rendimentos de Aplicação Financeira," 0,00"," 662.193,72"
+      6.1.3 - Ressarcimento de recursos do Fundeb," 0,00"," 0,00"
+   6.2 - FUNDEB - Complementação da União - VAAF," 0,00"," 0,00"
+      6.2.1 - Principal," 0,00"," 0,00"
+      6.2.2 - Rendimentos de Aplicação Financeira," 0,00"," 0,00"
+      6.2.3 - Ressarcimento de recursos do Fundeb," 0,00"," 0,00"
+   6.3 - FUNDEB - Complementação da União - VAAT," 0,00"," 0,00"
+      6.3.1 - Principal," 0,00"," 0,00"
+      6.3.2 - Rendimentos de Aplicação Financeira," 0,00"," 0,00"
+      6.3.3 - Ressarcimento de recursos do Fundeb," 0,00"," 0,00"
+   6.4 - FUNDEB - Complementação da União - VAAR," 6.102.000,00"," 3.236.515,60"
+      6.4.1 - Principal," 6.102.000,00"," 3.236.515,60"
+      6.4.2 - Rendimentos de Aplicação Financeira," 0,00"," 0,00"
+      6.4.3 - Ressarcimento de recursos do Fundeb," 0,00"," 0,00"
+7 - RESULTADO LÍQUIDO DAS TRANSFERÊNCIAS DO FUNDEB (6.1.1–4)¹," 39.214.970,00"," 21.154.495,58"
+
+dsSumarioItem3,vlPrevisaoAtualizadaDoExercicio3
+8 - TOTAL DOS RECURSOS DE SUPERÁVIT," 7.203.971,74"
+   8.1 - SUPERÁVIT DO EXERCÍCIO IMEDIATAMENTE ANTERIOR," 3.709.130,20"
+   8.2 - SUPERÁVIT RESIDUAL DE OUTROS EXERCÍCIOS," 3.494.841,54"
+9 - TOTAL DOS RECURSOS DO FUNDEB DISPONÍVEIS PARA UTILIZAÇÃO (6 + 8)," 53.683.893,42"
+
+dsSumarioItem4,vlPrevisaoAtualizadaDoExercicio4,Textbox64,Textbox68,Textbox70,Textbox72
+10 - TOTAL DAS DESPESAS COM RECURSOS DO FUNDEB," 97.720.683,68"," 52.337.065,47"," 48.372.164,55"," 47.586.148,56"," 3.964.900,92"
+   10.1 - PROFISSIONAIS DA EDUCAÇÃO BÁSICA," 74.225.474,00"," 36.463.283,34"," 36.463.283,34"," 35.684.130,16"," 0,00"
+      10.1.1 - Educação Infantil," 25.116.874,00"," 11.447.751,41"," 11.447.751,41"," 11.191.551,51"," 0,00"
+      10.1.2 - Ensino Fundamental," 48.609.000,00"," 24.884.219,94"," 24.884.219,94"," 24.363.817,55"," 0,00"
+      10.1.3 - Educação de Jovens e Adultos," 125.600,00"," 26.849,53"," 26.849,53"," 26.227,36"," 0,00"
+      10.1.4 - Educação Especial," 374.000,00"," 104.462,46"," 104.462,46"," 102.533,74"," 0,00"
+      10.1.5 - Administração Geral," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   10.2 - OUTRAS DESPESAS," 23.495.209,68"," 15.873.782,13"," 11.908.881,21"," 11.902.018,40"," 3.964.900,92"
+      10.2.1 - Educação Infantil," 441.800,00"," 5.120,27"," 5.120,27"," 5.120,27"," 0,00"
+      10.2.2 - Ensino Fundamental," 21.192.009,68"," 15.156.426,88"," 11.191.525,96"," 11.184.663,15"," 3.964.900,92"
+      10.2.3 - Educação de Jovens e Adultos," 98.600,00"," 0,00"," 0,00"," 0,00"," 0,00"
+      10.2.4 - Educação Especial," 1.762.800,00"," 712.234,98"," 712.234,98"," 712.234,98"," 0,00"
+      10.2.5 - Administração Geral," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+      10.2.6 - Transporte (Escolar)," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+      10.2.7 - Outras," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+
+dsSumarioItem5,vlPrevisaoAtualizadaDoExercicio5,Textbox66,Textbox76,Textbox77,Textbox78,Textbox124
+11 - TOTAL DAS DESPESAS CUSTEADAS COM RECURSOS DO FUNDEB RECEBIDAS NO EXERCÍCIO," 45.151.236,49"," 41.624.865,74"," 40.840.251,21"," 3.526.370,75"," 0,00"," 0,00"
+   11.1 - Total das Despesas custeadas com FUNDEB - Impostos e Transferências de Impostos," 42.459.295,33"," 40.407.539,30"," 39.622.924,77"," 2.051.756,03"," 0,00"," 0,00"
+   11.2 - Total das Despesas custeadas com FUNDEB - Complementação da União - VAAF," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   11.3 - Total das Despesas custeadas com FUNDEB - Complementação da União - VAAT," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   11.4 - Total das Despesas custeadas com FUNDEB - Complementação da União - VAAR," 2.691.941,16"," 1.217.326,44"," 1.217.326,44"," 1.474.614,72"," 0,00"," 0,00"
+12 - Total das Despesas do FUNDEB com Profissionais da Educação Básica," 36.463.283,34"," 36.463.283,34"," 35.684.130,16"," 0,00"," 0,00",
+13 - Total das Despesas custeadas com FUNDEB - Complementação da União - VAAT Aplicadas na Educação Infantil," 0,00"," 0,00"," 0,00"," 0,00"," 0,00",
+14 - Total das Despesas custeadas com FUNDEB - Complementação da União - VAAT Aplicadas em Despesa de Capital," 0,00"," 0,00"," 0,00"," 0,00"," 0,00",
+
+dsSumarioItem6,vlPrevisaoAtualizadaDoExercicio6,Textbox83,Textbox84,Textbox85
+15 - Mínimo de 70% do FUNDEB na Remuneração dos Profissionais da Educação Básica," 30.270.384,26"," 36.463.283,34"," 36.463.283,34"," 84,32"
+16 - PERCENTUAL DA COMPLEMENTAÇÃO DA UNIÃO AO FUNDEB - VAAT NA EDUCAÇÃO INFANTIL (INDICADOR IEI)," 0,00"," 0,00"," 0,00"," 0,00"
+17 - Mínimo de 15% da Complementação da União ao FUNDEB - VAAT em Despesas de Capital," 0,00"," 0,00"," 0,00"," 0,00"
+
+dsSumarioItem7,vlPrevisaoAtualizadaDoExercicio7,Textbox88,Textbox89,Textbox125,Textbox90
+18 - Total da Receita Recebida e não Aplicada no Exercício," 4.647.992,17"," 4.855.055,94"," 4.855.055,94"," 207.063,77"," 10,45"
+
+Textbox150,dsSumarioItem8,vlPrevisaoAtualizadaDoExercicio8,Textbox94,Textbox95,Textbox96,Textbox149,Textbox151
+"VALOR DE SUPERÁVIT PERMITIDO NO EXERCÍCIO ANTERIOR NÃO APLICADO ATÉ O PRIMEIRO QUADRIMESTRE DO EXERCÍCIO ATUAL
+(x)",19 - TOTAL DAS DESPESAS CUSTEADAS COM SUPERÁVIT DO FUNDEB," 8.429.250,81"," 3.709.130,20"," 7.006.165,72"," 179.663,26","- 3.476.698,78"," 0,00"
+"VALOR DE SUPERÁVIT PERMITIDO NO EXERCÍCIO ANTERIOR NÃO APLICADO ATÉ O PRIMEIRO QUADRIMESTRE DO EXERCÍCIO ATUAL
+(x)",   19.1 - Total das Despesas custeadas com FUNDEB - Impostos e Transferências de Impostos," 8.205.156,50"," 3.424.087,10"," 6.652.622,72"," 184.783,53","- 3.413.319,15"," 0,00"
+"VALOR DE SUPERÁVIT PERMITIDO NO EXERCÍCIO ANTERIOR NÃO APLICADO ATÉ O PRIMEIRO QUADRIMESTRE DO EXERCÍCIO ATUAL
+(x)",   19.2 - Total das Despesas custeadas com FUNDEB - Complementação da União (VAAF + VAAT + VAAR)," 224.094,31"," 285.043,10"," 353.543,00","- 5.120,27","- 63.379,63"," 0,00"
+
+dsSumarioItem9,vlPrevisaoAtualizadaDoExercicio9,Textbox102,Textbox103,Textbox104,Textbox105
+20 - TOTAL DAS DESPESAS COM AÇÕES TÍPICAS DE MDE CUSTEADAS COM RECEITAS DE IMPOSTOS," 52.579.540,87"," 29.584.615,65"," 25.102.426,26"," 25.102.200,98"," 4.482.189,39"
+   20.1 - EDUCAÇÃO INFANTIL," 14.430.569,66"," 6.893.180,25"," 6.893.180,25"," 6.893.180,25"," 0,00"
+   20.2 - ENSINO FUNDAMENTAL," 37.086.941,21"," 22.650.218,07"," 18.168.028,68"," 18.167.803,40"," 4.482.189,39"
+   20.3 - Educação de Jovens e Adultos," 8.000,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   20.4 - Educação Especial," 899.000,00"," 41.217,33"," 41.217,33"," 41.217,33"," 0,00"
+   20.5 - Administração Geral," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   20.6 - Transporte (Escolar)," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   20.7 - Outras," 155.030,00"," 0,00"," 0,00"," 0,00"," 0,00"
+
+dsSumarioItem17,vlPrevisaoAtualizadaDoExercicio17,Textbox130,Textbox131,Textbox132,Textbox133
+21 - TOTAL DAS DESPESAS COM AÇÕES TÍPICAS DE MDE CUSTEADAS COM RECEITAS DE IMPOSTOS E FUNDEB," 146.877.194,55"," 73.851.087,84"," 65.842.527,70"," 65.060.238,78"," 8.008.560,14"
+   21.1 - EDUCAÇÃO INFANTIL," 39.989.243,66"," 18.346.051,93"," 18.346.051,93"," 18.089.852,03"," 0,00"
+      21.1.1 - Creche," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+      21.1.2 - Pré-escola," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   21.2 - ENSINO FUNDAMENTAL," 106.887.950,89"," 55.505.035,91"," 47.496.475,77"," 46.970.386,75"," 8.008.560,14"
+
+dsSumarioItem10,vlPrevisaoAtualizadaDoExercicio10
+22 - TOTAL DAS DESPESAS DE MDE CUSTEADAS COM RECURSOS DE IMPOSTOS = L20(d ou e)," 25.102.426,26"
+23 - TOTAL DAS RECEITAS TRANSFERIDAS AO FUNDEB = (L4)," 21.426.716,78"
+"24 - (-) RECEITAS DO FUNDEB NÃO UTILIZADAS NO EXERCÍCIO, EM VALOR SUPERIOR A 10%"," 207.063,77"
+25 - (-) SUPERÁVIT PERMITIDO NO EXERCÍCIO IMEDIATAMENTE ANTERIOR NÃO APLICADO ATÉ O PRIMEIRO QUADRIMESTRE DO EXERCÍCIO ATUAL = L19(x)," 0,00"
+26 - (-) RESTOS A PAGAR NÃO PROCESSADOS INSCRITOS NO EXERCÍCIO SEM DISPONIBILIDADE FINANCEIRA DE RECURSOS DE IMPOSTOS,-
+"27 - (-) CANCELAMENTO, NO EXERCÍCIO, DE RESTOS A PAGAR INSCRITOS COM DISPONIBILIDADE FINANCEIRA DE RECURSOS DE IMPOSTOS VINCULADOS AO ENSINO"," 2.344.253,41"
+28 - TOTAL DAS DESPESAS PARA FINS DE LIMITE  (22 + 23) - (24 + 25 + 26 + 27)," 43.977.825,86"
+
+dsSumarioItem11,vlPrevisaoAtualizadaDoExercicio11,Textbox197,Textbox199
+29 - APLICAÇÃO EM MDE SOBRE A RECEITA RESULTANTE DE IMPOSTOS," 43.219.863,24"," 43.977.825,86"," 25,44"
+
+nrAto,Textbox123
+
+dsSumarioItem12,vlPrevisaoAtualizadaDoExercicio12,Textbox202,Textbox203,Textbox209,Textbox211
+30 - RESTOS A PAGAR DE DESPESAS COM MDE," 13.861.767,21"," 7.448.507,74"," 7.448.507,74"," 2.344.253,41"," 4.069.006,06"
+   30.1 - Executadas com Recursos de Impostos e Transferências de Impostos," 8.948.543,97"," 4.827.082,78"," 4.827.082,78"," 2.202.539,86"," 1.918.921,33"
+   30.2 - Executadas com Recursos do FUNDEB - Impostos," 4.306.223,24"," 2.014.424,96"," 2.014.424,96"," 141.713,55"," 2.150.084,73"
+   30.3 - Executadas com Recursos do FUNDEB - Complementação da União (VAAT + VAAF + VAAR)," 607.000,00"," 607.000,00"," 607.000,00"," 0,00"," 0,00"
+
+dsSumarioItem13,vlPrevisaoAtualizadaDoExercicio13,vlRealizadoAteOBimestre3
+31 - TOTAL DAS RECEITAS ADICIONAIS PARA FINANCIAMENTO DO ENSINO," 14.815.400,98"," 6.182.420,22"
+   31.1 - RECEITA DE TRANSFERÊNCIAS DO FNDE (INCLUINDO RENDIMENTOS DE APLICAÇÃO FINANCEIRA)," 7.410.000,00"," 4.304.623,63"
+      31.1.1 - Salário-Educação," 5.340.000,00"," 2.900.796,72"
+      31.1.2 - PDDE," 10.000,00"," 875,41"
+      31.1.3 - PNAE," 2.000.000,00"," 1.392.140,83"
+      31.1.4 - PNATE," 60.000,00"," 10.530,75"
+      31.1.5 - Outras Transferências do FNDE," 0,00"," 279,92"
+   31.2 - RECEITA DE TRANSFERÊNCIAS DE CONVÊNIOS," 5.945.400,98"," 916.951,62"
+   31.3 - RECEITA DE ROYALTIES DESTINADOS À EDUCAÇÃO," 0,00"," 0,00"
+   31.4 - RECEITA DE OPERAÇÕES DE CRÉDITO VINCULADAS À EDUCAÇÃO," 0,00"," 0,00"
+   31.5 - RECEITA DE PRECATÓRIOS - FUNDEF E FUNDEB," 0,00"," 0,00"
+   31.6 - OUTRAS RECEITAS PARA FINANCIAMENTO DO ENSINO," 1.460.000,00"," 960.844,97"
+
+dsSumarioItem14,vlPrevisaoAtualizadaDoExercicio14,Textbox111,Textbox112,Textbox113,Textbox114
+32 - TOTAL DAS DESPESAS COM AÇÕES TÍPICAS DE MDE CUSTEADAS COM DEMAIS RECEITAS," 18.943.480,24"," 15.549.514,36"," 8.266.329,43"," 8.159.069,27"," 7.283.184,93"
+   32.1 - EDUCAÇÃO INFANTIL," 112.215,67"," 422.582,67"," 422.582,67"," 422.582,67"," 0,00"
+   32.2 - ENSINO FUNDAMENTAL," 13.642.767,20"," 11.730.123,72"," 5.762.362,05"," 5.761.164,62"," 5.967.761,67"
+   32.3 - ENSINO MÉDIO," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   32.4 - ENSINO SUPERIOR," 169.500,00"," 1.584,68"," 396,17"," 396,17"," 1.188,51"
+   32.5 - ENSINO PROFISSIONAL," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   32.6 - EDUCAÇÃO DE JOVENS E ADULTOS," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   32.7 - EDUCAÇÃO ESPECIAL," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+   32.8 - OUTRAS," 5.018.997,37"," 3.395.223,29"," 2.080.988,54"," 1.974.925,81"," 1.314.234,75"
+
+dsSumarioItem15,vlPrevisaoAtualizadaDoExercicio15,Textbox119,Textbox120,Textbox121,Textbox122
+33 - TOTAL GERAL DAS DESPESAS COM EDUCAÇÃO," 169.275.704,79"," 97.471.195,48"," 81.740.920,24"," 80.847.418,81"," 15.730.275,24"
+   33.1 - Despesas Correntes," 149.250.856,42"," 84.736.694,78"," 73.423.961,49"," 72.530.460,06"," 11.312.733,29"
+      33.1.1 - Pessoal Ativo," 77.017.860,81"," 37.628.541,00"," 37.628.541,00"," 36.846.869,70"," 0,00"
+      33.1.2 - Pessoal Inativo," 0,00"," 0,00"," 0,00"," 0,00"," 0,00"
+"      33.1.3 - Transferências às instituições comunitárias, confessionais ou filantrópicas sem fins lucrativos"," 15.732.469,66"," 7.654.043,31"," 7.654.043,31"," 7.654.043,31"," 0,00"
+      33.1.4 - Outras Despesas Correntes," 56.500.525,95"," 39.454.110,47"," 28.141.377,18"," 28.029.547,05"," 11.312.733,29"
+   33.2 - Despesas de Capital," 20.024.848,37"," 12.734.500,70"," 8.316.958,75"," 8.316.958,75"," 4.417.541,95"
+"      33.2.1 - Transferências às instituições comunitárias, confessionais ou filantrópicas sem fins lucrativos"," 820.215,67"," 415.171,92"," 415.171,92"," 415.171,92"," 0,00"
+      33.2.2 - Outras Despesas de Capital," 19.204.632,70"," 12.319.328,78"," 7.901.786,83"," 7.901.786,83"," 4.417.541,95"
+
+dsSumarioItem16,vlPrevisaoAtualizadaDoExercicio16,Textbox206
+34 - DISPONIBILIDADE FINANCEIRA EM 31 DE DEZEMBRO DE 2025," 12.117.194,98"," 3.782.314,84"
+35 - (+) INGRESSO DE RECURSOS ATÉ O BIMESTRE (orçamentário)," 46.479.921,68"," 2.900.796,72"
+36 - (-) PAGAMENTOS EFETUADOS ATÉ O BIMESTRE (orçamentário e restos a pagar)," 50.211.939,01"," 4.531.920,07"
+37 - (=) DISPONIBILIDADE FINANCEIRA ATÉ O BIMESTRE," 8.385.177,65"," 2.151.191,49"
+38 - (+) AJUSTES POSITIVOS (RETENÇÕES E OUTROS VALORES EXTRAORÇAMENTÁRIOS)," 0,00"," 0,00"
+39 - (-) AJUSTES NEGATIVOS (OUTROS VALORES EXTRAORÇAMENTÁRIOS)," 0,00"," 0,00"
+40 - (=) SALDO FINANCEIRO CONCILIADO (Saldo Bancário)," 8.385.177,65"," 2.151.191,49"
+
