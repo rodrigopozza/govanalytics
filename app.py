@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Definindo as páginas
-pg_acoes = st.Page("pages/acoes.py", title="Ações")
+pg_acoes = st.Page("pages/acoes.py", title="Programas e Ações")
 pg_divida = st.Page("pages/divida.py", title="Dívida")
 pg_saude = st.Page("pages/saude.py", title="Saúde")
 pg_educacao = st.Page("pages/educacao.py", title="Educação")
