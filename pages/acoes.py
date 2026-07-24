@@ -92,7 +92,7 @@ st.markdown("""
             align-items: center;
             justify-content: center;
             margin-bottom: 12px;
-            font-size: 1.5rem;
+            font-size: 2.5rem;
         }
         
         .card-kpi-title {
